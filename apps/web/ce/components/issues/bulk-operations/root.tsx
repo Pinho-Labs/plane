@@ -14,6 +14,11 @@
  *  - cycle -> addIssueToCycle(...issueIds[]) (the store's native bulk method);
  *  - modules -> changeModulesInIssue(...) per issue.
  * The backend stays vanilla (the ee/ bulk-operation-issues/ endpoint is absent).
+ *
+ * The dropdowns mirror the issue-create modal's property row
+ * (components/issues/issue-modal/components/default-properties.tsx): each wrapped
+ * in an h-7 box, border-with-text variant, labels via IssueLabelSelect, and the
+ * estimate/cycle/module buttons gated on the project's feature flags.
  */
 
 import { useState } from "react";
@@ -34,10 +39,12 @@ import { ModuleDropdown } from "@/components/dropdowns/module/dropdown";
 import { PriorityDropdown } from "@/components/dropdowns/priority";
 import { StateDropdown } from "@/components/dropdowns/state/dropdown";
 // components
-import { IssuePropertyLabels } from "@/components/issues/issue-layouts/properties/labels";
+import { IssueLabelSelect } from "@/components/issues/select";
 // hooks
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useMultipleSelectStore } from "@/hooks/store/use-multiple-select-store";
+import { useProject } from "@/hooks/store/use-project";
 import type { TSelectionHelper } from "@/hooks/use-multiple-select";
 
 type Props = {
@@ -52,6 +59,8 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
   // store hooks
   const { isSelectionActive, selectedEntityIds } = useMultipleSelectStore();
   const { updateIssue, addIssueToCycle, changeModulesInIssue } = useIssueDetail();
+  const { areEstimateEnabledByProjectId } = useProjectEstimates();
+  const { getProjectById } = useProject();
   // i18n
   const { t } = useTranslation();
   // local state
@@ -64,6 +73,8 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
   const ids = selectedEntityIds;
   const count = ids.length;
   const canEdit = !!workspaceSlug && !!projectId && count > 0;
+  // derived values (feature flags, like the create modal)
+  const projectDetails = projectId ? getProjectById(projectId) : undefined;
 
   // executor: runs the action, toasts the outcome and locks the toolbar while it works
   const run = async (fn: () => Promise<unknown>) => {
@@ -112,67 +123,90 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
         <div className="mx-1 h-6 w-px flex-shrink-0 bg-custom-border-200" />
 
         {projectId && (
-          <div className="flex items-center gap-2 overflow-x-auto">
-            <StateDropdown
-              projectId={projectId}
-              value={null}
-              onChange={(val: string) => applyUpdate({ state_id: val })}
-              buttonVariant="border-with-text"
-            />
-            <PriorityDropdown
-              value={null}
-              onChange={(val: TIssuePriorities) => applyUpdate({ priority: val })}
-              buttonVariant="border-with-text"
-            />
-            <MemberDropdown
-              projectId={projectId}
-              value={[]}
-              onChange={(val: string[]) => applyUpdate({ assignee_ids: val })}
-              multiple
-              buttonVariant="border-with-text"
-              placeholder={t("common.assignees")}
-            />
-            <IssuePropertyLabels
-              projectId={projectId}
-              value={[]}
-              onChange={(val: string[]) => applyUpdate({ label_ids: val })}
-              placeholderText={t("common.labels")}
-              renderByDefault
-            />
-            <DateDropdown
-              value={null}
-              onChange={(val: Date | null) => applyUpdate({ start_date: val ? renderFormattedPayloadDate(val) : null })}
-              buttonVariant="border-with-text"
-              placeholder={t("common.order_by.start_date")}
-            />
-            <DateDropdown
-              value={null}
-              onChange={(val: Date | null) => applyUpdate({ target_date: val ? renderFormattedPayloadDate(val) : null })}
-              buttonVariant="border-with-text"
-              placeholder={t("common.order_by.due_date")}
-            />
-            <EstimateDropdown
-              projectId={projectId}
-              value={undefined}
-              onChange={(val: string | undefined) => applyUpdate({ estimate_point: val })}
-              buttonVariant="border-with-text"
-              placeholder={t("common.estimate")}
-            />
-            <CycleDropdown
-              projectId={projectId}
-              value={null}
-              onChange={(val: string | null) => applyCycle(val)}
-              buttonVariant="border-with-text"
-              placeholder={t("common.cycle")}
-            />
-            <ModuleDropdown
-              projectId={projectId}
-              value={[]}
-              onChange={(val: string[]) => applyModules(val)}
-              multiple
-              buttonVariant="border-with-text"
-              placeholder={t("common.modules")}
-            />
+          <div className="flex flex-shrink items-center gap-2 overflow-x-auto">
+            <div className="h-7">
+              <StateDropdown
+                projectId={projectId}
+                value={null}
+                onChange={(val: string) => applyUpdate({ state_id: val })}
+                buttonVariant="border-with-text"
+              />
+            </div>
+            <div className="h-7">
+              <PriorityDropdown
+                value={null}
+                onChange={(val: TIssuePriorities) => applyUpdate({ priority: val })}
+                buttonVariant="border-with-text"
+              />
+            </div>
+            <div className="h-7">
+              <MemberDropdown
+                projectId={projectId}
+                value={[]}
+                onChange={(val: string[]) => applyUpdate({ assignee_ids: val })}
+                multiple
+                buttonVariant="border-with-text"
+                placeholder={t("common.assignees")}
+              />
+            </div>
+            <div className="h-7">
+              <IssueLabelSelect
+                projectId={projectId}
+                value={[]}
+                onChange={(val: string[]) => applyUpdate({ label_ids: val })}
+              />
+            </div>
+            <div className="h-7">
+              <DateDropdown
+                value={null}
+                onChange={(val: Date | null) => applyUpdate({ start_date: val ? renderFormattedPayloadDate(val) : null })}
+                buttonVariant="border-with-text"
+                placeholder={t("common.order_by.start_date")}
+              />
+            </div>
+            <div className="h-7">
+              <DateDropdown
+                value={null}
+                onChange={(val: Date | null) => applyUpdate({ target_date: val ? renderFormattedPayloadDate(val) : null })}
+                buttonVariant="border-with-text"
+                placeholder={t("common.order_by.due_date")}
+              />
+            </div>
+            {projectDetails?.cycle_view && (
+              <div className="h-7">
+                <CycleDropdown
+                  projectId={projectId}
+                  value={null}
+                  onChange={(val: string | null) => applyCycle(val)}
+                  buttonVariant="border-with-text"
+                  placeholder={t("common.cycle")}
+                />
+              </div>
+            )}
+            {projectDetails?.module_view && (
+              <div className="h-7">
+                <ModuleDropdown
+                  projectId={projectId}
+                  value={[]}
+                  onChange={(val: string[]) => applyModules(val)}
+                  multiple
+                  showCount
+                  buttonVariant="border-with-text"
+                  placeholder={t("common.modules")}
+                />
+              </div>
+            )}
+            {areEstimateEnabledByProjectId(projectId) && (
+              <div className="h-7">
+                <EstimateDropdown
+                  projectId={projectId}
+                  value={undefined}
+                  onChange={(val: string | undefined) => applyUpdate({ estimate_point: val })}
+                  buttonVariant="border-with-text"
+                  placeholder={t("common.estimate")}
+                />
+              </div>
+            )}
           </div>
         )}
 
