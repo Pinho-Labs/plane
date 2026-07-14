@@ -130,6 +130,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 value={null}
                 onChange={(val: string) => applyUpdate({ state_id: val })}
                 buttonVariant="border-with-text"
+                placement="top-start"
               />
             </div>
             <div className="h-7">
@@ -137,6 +138,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 value={null}
                 onChange={(val: TIssuePriorities) => applyUpdate({ priority: val })}
                 buttonVariant="border-with-text"
+                placement="top-start"
               />
             </div>
             <div className="h-7">
@@ -147,6 +149,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 multiple
                 buttonVariant="border-with-text"
                 placeholder={t("common.assignees")}
+                placement="top-start"
               />
             </div>
             <div className="h-7">
@@ -154,6 +157,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 projectId={projectId}
                 value={[]}
                 onChange={(val: string[]) => applyUpdate({ label_ids: val })}
+                placement="top-start"
               />
             </div>
             <div className="h-7">
@@ -162,6 +166,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 onChange={(val: Date | null) => applyUpdate({ start_date: val ? renderFormattedPayloadDate(val) : null })}
                 buttonVariant="border-with-text"
                 placeholder={t("common.order_by.start_date")}
+                placement="top-start"
               />
             </div>
             <div className="h-7">
@@ -170,6 +175,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                 onChange={(val: Date | null) => applyUpdate({ target_date: val ? renderFormattedPayloadDate(val) : null })}
                 buttonVariant="border-with-text"
                 placeholder={t("common.order_by.due_date")}
+                placement="top-start"
               />
             </div>
             {projectDetails?.cycle_view && (
@@ -180,6 +186,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                   onChange={(val: string | null) => applyCycle(val)}
                   buttonVariant="border-with-text"
                   placeholder={t("common.cycle")}
+                  placement="top-start"
                 />
               </div>
             )}
@@ -193,6 +200,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                   showCount
                   buttonVariant="border-with-text"
                   placeholder={t("common.modules")}
+                  placement="top-start"
                 />
               </div>
             )}
@@ -204,6 +212,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
                   onChange={(val: string | undefined) => applyUpdate({ estimate_point: val })}
                   buttonVariant="border-with-text"
                   placeholder={t("common.estimate")}
+                  placement="top-start"
                 />
               </div>
             )}
