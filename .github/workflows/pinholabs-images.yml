@@ -1,0 +1,77 @@
+# Builda as imagens do FORK do Plane (Pinho Labs) e publica no ghcr.io.
+# Consumidas pelos manifests em infra-manifests/apps/pinholabs-plane-prod/.
+#
+# Gatilho: manual (workflow_dispatch) + push na branch `preview` (a branch padrão do
+# fork, onde você mexe). Como você não sincroniza o upstream, `preview` = suas mudanças.
+#
+# Pré-requisitos no repo do fork (github.com/Pinho-Labs/plane):
+#   - Settings → Actions → Workflow permissions: "Read and write" (pro GITHUB_TOKEN
+#     conseguir dar push no ghcr). Já coberto pelo `permissions:` abaixo.
+#   - Os 5 pacotes ghcr nascem PRIVADOS. O cluster puxa com o pull secret `ghcr`
+#     (ver infra-manifests/apps/pinholabs-plane-prod/README.md).
+#
+# Os frontends (web/admin/space) bakeiam as URLs/paths no BUILD. Os DEFAULTS dos
+# Dockerfiles já batem com o nosso setup (base paths /god-mode //spaces //live //api,
+# base URLs vazias = mesma origem). Se um dia trocar o domínio, passe build-args aqui.
+name: pinholabs-images
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [preview]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: web
+            context: .
+            dockerfile: ./apps/web/Dockerfile.web
+          - name: admin
+            context: .
+            dockerfile: ./apps/admin/Dockerfile.admin
+          - name: space
+            context: .
+            dockerfile: ./apps/space/Dockerfile.space
+          - name: live
+            context: .
+            dockerfile: ./apps/live/Dockerfile.live
+          - name: backend
+            context: ./apps/api
+            dockerfile: Dockerfile.api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute image ref (owner lowercased)
+        id: img
+        run: echo "repo=ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/plane-${{ matrix.name }}" >> "$GITHUB_OUTPUT"
+
+      - name: Build & push ${{ matrix.name }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            ${{ steps.img.outputs.repo }}:${{ github.sha }}
+            ${{ steps.img.outputs.repo }}:latest
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,scope=${{ matrix.name }},mode=max
