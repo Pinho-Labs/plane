@@ -75,3 +75,54 @@ jobs:
             ${{ steps.img.outputs.repo }}:latest
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,scope=${{ matrix.name }},mode=max
+
+  # Escreve o SHA deste build nos manifests do infra-manifests e dá push → o Argo CD
+  # faz o rolling update. Mesmo padrão GitOps do exemplo-app (CI escreve o SHA, você
+  # nunca pina à mão). Usa o GitHub App (MANIFESTS_APP_ID/KEY) pra escrever no OUTRO repo.
+  #
+  # Pré-requisitos no repo do fork (Pinho-Labs/plane) → Settings → Secrets and variables → Actions:
+  #   - Variable  MANIFESTS_APP_ID   (o App ID — mesmo App do exemplo-app)
+  #   - Secret    MANIFESTS_APP_KEY  (a private key .pem do App)
+  # O App precisa estar instalado no repo felipesantoos/infra-manifests com Contents: Read and write.
+  update-manifest:
+    needs: build                 # só depois dos 5 builds passarem
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gerar token do GitHub App (escopo: infra-manifests)
+        uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ vars.MANIFESTS_APP_ID }}
+          private-key: ${{ secrets.MANIFESTS_APP_KEY }}
+          owner: felipesantoos
+          repositories: infra-manifests
+
+      - name: Checkout do infra-manifests
+        uses: actions/checkout@v4
+        with:
+          repository: felipesantoos/infra-manifests
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Fixar as 5 imagens no SHA deste commit
+        run: |
+          set -e
+          D=apps/pinholabs-plane-prod
+          if [ ! -d "$D" ]; then
+            echo "Manifests ainda não commitados no infra-manifests — pulando (faça o push #2 primeiro)."
+            exit 0
+          fi
+          sed -i "s#ghcr.io/pinho-labs/plane-backend:.*#ghcr.io/pinho-labs/plane-backend:${{ github.sha }}#g" "$D/backend.yaml"
+          for svc in web admin space live; do
+            sed -i "s#ghcr.io/pinho-labs/plane-$svc:.*#ghcr.io/pinho-labs/plane-$svc:${{ github.sha }}#g" "$D/frontend.yaml"
+          done
+
+      - name: Commit & push (dispara o Argo CD)
+        run: |
+          git config user.name  "pinholabs-manifest-bot"
+          git config user.email "manifest-bot@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "Manifests já estavam no SHA ${{ github.sha }}."
+          else
+            git commit -am "plane: deploy ${{ github.sha }}"
+            git push
+          fi
