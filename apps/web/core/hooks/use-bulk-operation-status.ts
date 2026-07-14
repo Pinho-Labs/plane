@@ -4,4 +4,7 @@
  * See the LICENSE file for details.
  */
 
-export const useBulkOperationStatus = () => false;
+// Pinho Labs (fork): bulk operations destravado. O upstream retorna false aqui
+// (a feature vive no ee/ fechado). A toolbar real está em
+// ce/components/issues/bulk-operations/root.tsx.
+export const useBulkOperationStatus = () => true;
