@@ -3,11 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  *
- * Pinho Labs (fork): bulk edit destravado. O upstream mostra um paywall aqui
- * (a toolbar real vive no ee/ fechado). Aqui a gente monta a toolbar e aplica o
- * update em massa chamando o partial_update (via useIssueDetail) em cada issue
- * selecionada — mantendo activity log, notificações e webhooks (o backend fica
- * vanilla). Cobre estado, prioridade e responsáveis; a seleção some depois.
+ * Pinho Labs (fork): bulk edit destravado, com PARIDADE de campos com a EE
+ * (TBulkIssueProperties): estado, prioridade, responsáveis, labels, data de
+ * início, data de entrega, estimativa, ciclo e módulos.
+ *
+ * O upstream mostra um paywall aqui (a toolbar real vive no ee/ fechado). Aqui a
+ * gente aplica via os mesmos caminhos do editor single-issue:
+ *  - 7 campos diretos → updateIssue({...}) em loop (mantém activity/notif/webhook);
+ *  - ciclo → addIssueToCycle(...issueIds[]) (bulk nativo do store);
+ *  - módulos → changeModulesInIssue(...) por issue.
+ * O backend fica vanilla (o endpoint bulk-operation-issues/ é do ee/, ausente).
  */
 
 import { useState } from "react";
@@ -17,11 +22,17 @@ import { X } from "lucide-react";
 // plane imports
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, TIssuePriorities } from "@plane/types";
-import { cn } from "@plane/utils";
-// components
+import { cn, renderFormattedPayloadDate } from "@plane/utils";
+// dropdowns
+import { CycleDropdown } from "@/components/dropdowns/cycle";
+import { DateDropdown } from "@/components/dropdowns/date";
+import { EstimateDropdown } from "@/components/dropdowns/estimate";
 import { MemberDropdown } from "@/components/dropdowns/member/dropdown";
+import { ModuleDropdown } from "@/components/dropdowns/module/dropdown";
 import { PriorityDropdown } from "@/components/dropdowns/priority";
 import { StateDropdown } from "@/components/dropdowns/state/dropdown";
+// components
+import { IssuePropertyLabels } from "@/components/issues/issue-layouts/properties/labels";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useMultipleSelectStore } from "@/hooks/store/use-multiple-select-store";
@@ -35,28 +46,27 @@ type Props = {
 export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot(props: Props) {
   const { className, selectionHelpers } = props;
   // router
-  const { workspaceSlug, projectId } = useParams();
+  const { workspaceSlug: wsParam, projectId: projParam } = useParams();
   // store hooks
   const { isSelectionActive, selectedEntityIds } = useMultipleSelectStore();
-  const { updateIssue } = useIssueDetail();
+  const { updateIssue, addIssueToCycle, changeModulesInIssue } = useIssueDetail();
   // local state
   const [isUpdating, setIsUpdating] = useState(false);
 
   if (!isSelectionActive || selectionHelpers.isSelectionDisabled) return null;
 
-  const count = selectedEntityIds.length;
+  const workspaceSlug = wsParam?.toString();
+  const projectId = projParam?.toString();
+  const ids = selectedEntityIds;
+  const count = ids.length;
   const canEdit = !!workspaceSlug && !!projectId && count > 0;
 
-  // aplica o mesmo update em TODAS as issues selecionadas (loop no partial_update)
-  const applyToAll = async (data: Partial<TIssue>) => {
+  // executor: roda a ação, mostra toast e trava a toolbar enquanto processa
+  const run = async (fn: () => Promise<unknown>) => {
     if (!canEdit || isUpdating) return;
     setIsUpdating(true);
     try {
-      await Promise.all(
-        selectedEntityIds.map((issueId) =>
-          updateIssue(workspaceSlug!.toString(), projectId!.toString(), issueId, data)
-        )
-      );
+      await fn();
       setToast({
         type: TOAST_TYPE.SUCCESS,
         title: "Atualizado",
@@ -73,6 +83,17 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
     }
   };
 
+  // campos diretos do issue → partial_update em cada selecionada
+  const applyUpdate = (data: Partial<TIssue>) =>
+    run(() => Promise.all(ids.map((id) => updateIssue(workspaceSlug!, projectId!, id, data))));
+  // ciclo (relação) → o store tem método bulk que aceita a lista de issueIds
+  const applyCycle = (cycleId: string | null) => {
+    if (cycleId) run(() => addIssueToCycle(workspaceSlug!, projectId!, cycleId, ids));
+  };
+  // módulos (relação) → adiciona os módulos escolhidos em cada issue
+  const applyModules = (moduleIds: string[]) =>
+    run(() => Promise.all(ids.map((id) => changeModulesInIssue(workspaceSlug!, projectId!, id, moduleIds, []))));
+
   return (
     <div className={cn("sticky bottom-0 left-0 z-[2] grid h-20 place-items-center px-3.5", className)}>
       <div
@@ -87,25 +108,64 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
         <div className="mx-1 h-6 w-px flex-shrink-0 bg-custom-border-200" />
 
         {projectId && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto">
             <StateDropdown
-              projectId={projectId.toString()}
+              projectId={projectId}
               value={null}
-              onChange={(val: string) => applyToAll({ state_id: val })}
+              onChange={(val: string) => applyUpdate({ state_id: val })}
               buttonVariant="border-with-text"
             />
             <PriorityDropdown
               value={null}
-              onChange={(val: TIssuePriorities) => applyToAll({ priority: val })}
+              onChange={(val: TIssuePriorities) => applyUpdate({ priority: val })}
               buttonVariant="border-with-text"
             />
             <MemberDropdown
-              projectId={projectId.toString()}
+              projectId={projectId}
               value={[]}
-              onChange={(val: string[]) => applyToAll({ assignee_ids: val })}
+              onChange={(val: string[]) => applyUpdate({ assignee_ids: val })}
               multiple
               buttonVariant="border-with-text"
               placeholder="Responsáveis"
+            />
+            <IssuePropertyLabels
+              projectId={projectId}
+              value={[]}
+              onChange={(val: string[]) => applyUpdate({ label_ids: val })}
+              renderByDefault
+            />
+            <DateDropdown
+              value={null}
+              onChange={(val: Date | null) => applyUpdate({ start_date: val ? renderFormattedPayloadDate(val) : null })}
+              buttonVariant="border-with-text"
+              placeholder="Início"
+            />
+            <DateDropdown
+              value={null}
+              onChange={(val: Date | null) => applyUpdate({ target_date: val ? renderFormattedPayloadDate(val) : null })}
+              buttonVariant="border-with-text"
+              placeholder="Entrega"
+            />
+            <EstimateDropdown
+              projectId={projectId}
+              value={undefined}
+              onChange={(val: string | undefined) => applyUpdate({ estimate_point: val })}
+              buttonVariant="border-with-text"
+            />
+            <CycleDropdown
+              projectId={projectId}
+              value={null}
+              onChange={(val: string | null) => applyCycle(val)}
+              buttonVariant="border-with-text"
+              placeholder="Ciclo"
+            />
+            <ModuleDropdown
+              projectId={projectId}
+              value={[]}
+              onChange={(val: string[]) => applyModules(val)}
+              multiple
+              buttonVariant="border-with-text"
+              placeholder="Módulos"
             />
           </div>
         )}
