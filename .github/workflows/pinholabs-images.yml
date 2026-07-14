@@ -88,7 +88,7 @@ jobs:
     needs: build                 # só depois dos 5 builds passarem
     runs-on: ubuntu-latest
     steps:
-      - name: Gerar token do GitHub App (escopo: infra-manifests)
+      - name: Gerar token do GitHub App (infra-manifests)
         uses: actions/create-github-app-token@v1
         id: app-token
         with:
