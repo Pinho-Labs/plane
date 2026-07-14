@@ -309,6 +309,16 @@
     }
   },
   "bulk_operations": {
+    "selected_count": "{count, plural, one {# selected} other {# selected}}",
+    "update_success": {
+      "title": "Updated",
+      "message": "{count, plural, one {# work item updated} other {# work items updated}}"
+    },
+    "update_error": {
+      "title": "Couldn't update work items",
+      "message": "Some of the selected work items couldn't be updated. Please try again."
+    },
+    "clear_selection": "Clear selection",
     "error_details": {
       "invalid_archive_state_group": {
         "title": "Unable to archive work items",

@@ -4,7 +4,7 @@
  * See the LICENSE file for details.
  */
 
-// Pinho Labs (fork): bulk operations destravado. O upstream retorna false aqui
-// (a feature vive no ee/ fechado). A toolbar real está em
+// Pinho Labs (fork): bulk operations unlocked. Upstream returns false here
+// (the feature lives in the closed ee/). The real toolbar is in
 // ce/components/issues/bulk-operations/root.tsx.
 export const useBulkOperationStatus = () => true;

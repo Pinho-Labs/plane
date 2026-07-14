@@ -309,6 +309,16 @@
     }
   },
   "bulk_operations": {
+    "selected_count": "{count, plural, one {# selecionado} other {# selecionados}}",
+    "update_success": {
+      "title": "Atualizado",
+      "message": "{count, plural, one {# item de trabalho atualizado} other {# itens de trabalho atualizados}}"
+    },
+    "update_error": {
+      "title": "Não foi possível atualizar",
+      "message": "Alguns dos itens selecionados não puderam ser atualizados. Tente novamente."
+    },
+    "clear_selection": "Limpar seleção",
     "error_details": {
       "invalid_archive_state_group": {
         "title": "Não é possível arquivar itens de trabalho",

@@ -3,16 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  * See the LICENSE file for details.
  *
- * Pinho Labs (fork): bulk edit destravado, com PARIDADE de campos com a EE
- * (TBulkIssueProperties): estado, prioridade, responsáveis, labels, data de
- * início, data de entrega, estimativa, ciclo e módulos.
+ * Pinho Labs (fork): bulk edit unlocked, at field parity with the EE toolbar
+ * (TBulkIssueProperties): state, priority, assignees, labels, start date,
+ * target date, estimate, cycle and modules.
  *
- * O upstream mostra um paywall aqui (a toolbar real vive no ee/ fechado). Aqui a
- * gente aplica via os mesmos caminhos do editor single-issue:
- *  - 7 campos diretos → updateIssue({...}) em loop (mantém activity/notif/webhook);
- *  - ciclo → addIssueToCycle(...issueIds[]) (bulk nativo do store);
- *  - módulos → changeModulesInIssue(...) por issue.
- * O backend fica vanilla (o endpoint bulk-operation-issues/ é do ee/, ausente).
+ * Upstream ships a paywall stub here (the real toolbar lives in the closed ee/).
+ * We apply changes through the same paths as the single-issue editor:
+ *  - 7 direct fields -> updateIssue({...}) per selected issue (keeps activity
+ *    log, notifications and webhooks working);
+ *  - cycle -> addIssueToCycle(...issueIds[]) (the store's native bulk method);
+ *  - modules -> changeModulesInIssue(...) per issue.
+ * The backend stays vanilla (the ee/ bulk-operation-issues/ endpoint is absent).
  */
 
 import { useState } from "react";
@@ -20,6 +21,7 @@ import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { X } from "lucide-react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import type { TIssue, TIssuePriorities } from "@plane/types";
 import { cn, renderFormattedPayloadDate } from "@plane/utils";
@@ -50,6 +52,8 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
   // store hooks
   const { isSelectionActive, selectedEntityIds } = useMultipleSelectStore();
   const { updateIssue, addIssueToCycle, changeModulesInIssue } = useIssueDetail();
+  // i18n
+  const { t } = useTranslation();
   // local state
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -61,7 +65,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
   const count = ids.length;
   const canEdit = !!workspaceSlug && !!projectId && count > 0;
 
-  // executor: roda a ação, mostra toast e trava a toolbar enquanto processa
+  // executor: runs the action, toasts the outcome and locks the toolbar while it works
   const run = async (fn: () => Promise<unknown>) => {
     if (!canEdit || isUpdating) return;
     setIsUpdating(true);
@@ -69,28 +73,28 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
       await fn();
       setToast({
         type: TOAST_TYPE.SUCCESS,
-        title: "Atualizado",
-        message: `${count} work item(s) atualizados.`,
+        title: t("bulk_operations.update_success.title"),
+        message: t("bulk_operations.update_success.message", { count }),
       });
     } catch {
       setToast({
         type: TOAST_TYPE.ERROR,
-        title: "Erro",
-        message: "Não foi possível atualizar todos os work items.",
+        title: t("bulk_operations.update_error.title"),
+        message: t("bulk_operations.update_error.message"),
       });
     } finally {
       setIsUpdating(false);
     }
   };
 
-  // campos diretos do issue → partial_update em cada selecionada
+  // direct issue fields -> partial update on every selected issue
   const applyUpdate = (data: Partial<TIssue>) =>
     run(() => Promise.all(ids.map((id) => updateIssue(workspaceSlug!, projectId!, id, data))));
-  // ciclo (relação) → o store tem método bulk que aceita a lista de issueIds
+  // cycle (relation) -> the store exposes a bulk method that takes the issueIds list
   const applyCycle = (cycleId: string | null) => {
     if (cycleId) run(() => addIssueToCycle(workspaceSlug!, projectId!, cycleId, ids));
   };
-  // módulos (relação) → adiciona os módulos escolhidos em cada issue
+  // modules (relation) -> add the chosen modules to each selected issue
   const applyModules = (moduleIds: string[]) =>
     run(() => Promise.all(ids.map((id) => changeModulesInIssue(workspaceSlug!, projectId!, id, moduleIds, []))));
 
@@ -103,7 +107,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
         )}
       >
         <span className="whitespace-nowrap text-sm font-medium text-custom-text-200">
-          {count} selecionado{count === 1 ? "" : "s"}
+          {t("bulk_operations.selected_count", { count })}
         </span>
         <div className="mx-1 h-6 w-px flex-shrink-0 bg-custom-border-200" />
 
@@ -126,38 +130,40 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
               onChange={(val: string[]) => applyUpdate({ assignee_ids: val })}
               multiple
               buttonVariant="border-with-text"
-              placeholder="Responsáveis"
+              placeholder={t("common.assignees")}
             />
             <IssuePropertyLabels
               projectId={projectId}
               value={[]}
               onChange={(val: string[]) => applyUpdate({ label_ids: val })}
+              placeholderText={t("common.labels")}
               renderByDefault
             />
             <DateDropdown
               value={null}
               onChange={(val: Date | null) => applyUpdate({ start_date: val ? renderFormattedPayloadDate(val) : null })}
               buttonVariant="border-with-text"
-              placeholder="Início"
+              placeholder={t("common.order_by.start_date")}
             />
             <DateDropdown
               value={null}
               onChange={(val: Date | null) => applyUpdate({ target_date: val ? renderFormattedPayloadDate(val) : null })}
               buttonVariant="border-with-text"
-              placeholder="Entrega"
+              placeholder={t("common.order_by.due_date")}
             />
             <EstimateDropdown
               projectId={projectId}
               value={undefined}
               onChange={(val: string | undefined) => applyUpdate({ estimate_point: val })}
               buttonVariant="border-with-text"
+              placeholder={t("common.estimate")}
             />
             <CycleDropdown
               projectId={projectId}
               value={null}
               onChange={(val: string | null) => applyCycle(val)}
               buttonVariant="border-with-text"
-              placeholder="Ciclo"
+              placeholder={t("common.cycle")}
             />
             <ModuleDropdown
               projectId={projectId}
@@ -165,7 +171,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
               onChange={(val: string[]) => applyModules(val)}
               multiple
               buttonVariant="border-with-text"
-              placeholder="Módulos"
+              placeholder={t("common.modules")}
             />
           </div>
         )}
@@ -175,7 +181,7 @@ export const IssueBulkOperationsRoot = observer(function IssueBulkOperationsRoot
           type="button"
           onClick={selectionHelpers.handleClearSelection}
           className="flex-shrink-0 rounded p-1 text-custom-text-300 hover:bg-custom-background-80 hover:text-custom-text-100"
-          title="Limpar seleção"
+          title={t("bulk_operations.clear_selection")}
         >
           <X className="size-4" />
         </button>

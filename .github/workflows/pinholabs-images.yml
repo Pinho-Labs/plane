@@ -1,18 +1,18 @@
-# Builda as imagens do FORK do Plane (Pinho Labs) e publica no ghcr.io.
-# Consumidas pelos manifests em infra-manifests/apps/pinholabs-plane-prod/.
+# Builds the Plane FORK images (Pinho Labs) and publishes them to ghcr.io.
+# Consumed by the manifests in infra-manifests/apps/pinholabs-plane-prod/.
 #
-# Gatilho: manual (workflow_dispatch) + push na branch `preview` (a branch padrão do
-# fork, onde você mexe). Como você não sincroniza o upstream, `preview` = suas mudanças.
+# Trigger: manual (workflow_dispatch) + push to the `preview` branch (the fork's
+# default branch, where we work). Since we don't sync upstream, `preview` = our changes.
 #
-# Pré-requisitos no repo do fork (github.com/Pinho-Labs/plane):
-#   - Settings → Actions → Workflow permissions: "Read and write" (pro GITHUB_TOKEN
-#     conseguir dar push no ghcr). Já coberto pelo `permissions:` abaixo.
-#   - Os 5 pacotes ghcr nascem PRIVADOS. O cluster puxa com o pull secret `ghcr`
-#     (ver infra-manifests/apps/pinholabs-plane-prod/README.md).
+# Prerequisites in the fork repo (github.com/Pinho-Labs/plane):
+#   - Settings -> Actions -> Workflow permissions: "Read and write" (so GITHUB_TOKEN
+#     can push to ghcr). Already covered by the `permissions:` block below.
+#   - The 5 ghcr packages are created PRIVATE. The cluster pulls them with the `ghcr`
+#     pull secret (see infra-manifests/apps/pinholabs-plane-prod/README.md).
 #
-# Os frontends (web/admin/space) bakeiam as URLs/paths no BUILD. Os DEFAULTS dos
-# Dockerfiles já batem com o nosso setup (base paths /god-mode //spaces //live //api,
-# base URLs vazias = mesma origem). Se um dia trocar o domínio, passe build-args aqui.
+# The frontends (web/admin/space) bake the URLs/paths at BUILD time. The Dockerfile
+# DEFAULTS already match our setup (base paths /god-mode //spaces //live //api,
+# empty base URLs = same origin). If the domain ever changes, pass build-args here.
 name: pinholabs-images
 
 on:
@@ -76,19 +76,19 @@ jobs:
           cache-from: type=gha,scope=${{ matrix.name }}
           cache-to: type=gha,scope=${{ matrix.name }},mode=max
 
-  # Escreve o SHA deste build nos manifests do infra-manifests e dá push → o Argo CD
-  # faz o rolling update. Mesmo padrão GitOps do exemplo-app (CI escreve o SHA, você
-  # nunca pina à mão). Usa o GitHub App (MANIFESTS_APP_ID/KEY) pra escrever no OUTRO repo.
+  # Writes this build's SHA into the infra-manifests manifests and pushes -> Argo CD
+  # does the rolling update. Same GitOps pattern as exemplo-app (CI writes the SHA, we
+  # never pin by hand). Uses the GitHub App (MANIFESTS_APP_ID/KEY) to write to the OTHER repo.
   #
-  # Pré-requisitos no repo do fork (Pinho-Labs/plane) → Settings → Secrets and variables → Actions:
-  #   - Variable  MANIFESTS_APP_ID   (o App ID — mesmo App do exemplo-app)
-  #   - Secret    MANIFESTS_APP_KEY  (a private key .pem do App)
-  # O App precisa estar instalado no repo felipesantoos/infra-manifests com Contents: Read and write.
+  # Prerequisites in the fork repo (Pinho-Labs/plane) -> Settings -> Secrets and variables -> Actions:
+  #   - Variable  MANIFESTS_APP_ID   (the App ID — same App as exemplo-app)
+  #   - Secret    MANIFESTS_APP_KEY  (the App's .pem private key)
+  # The App must be installed on the felipesantoos/infra-manifests repo with Contents: Read and write.
   update-manifest:
-    needs: build                 # só depois dos 5 builds passarem
+    needs: build                 # only after the 5 builds pass
     runs-on: ubuntu-latest
     steps:
-      - name: Gerar token do GitHub App (infra-manifests)
+      - name: Generate GitHub App token (infra-manifests)
         uses: actions/create-github-app-token@v1
         id: app-token
         with:
@@ -97,18 +97,18 @@ jobs:
           owner: felipesantoos
           repositories: infra-manifests
 
-      - name: Checkout do infra-manifests
+      - name: Checkout infra-manifests
         uses: actions/checkout@v4
         with:
           repository: felipesantoos/infra-manifests
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Fixar as 5 imagens no SHA deste commit
+      - name: Pin the 5 images to this commit's SHA
         run: |
           set -e
           D=apps/pinholabs-plane-prod
           if [ ! -d "$D" ]; then
-            echo "Manifests ainda não commitados no infra-manifests — pulando (faça o push #2 primeiro)."
+            echo "Manifests not committed to infra-manifests yet — skipping (do push #2 first)."
             exit 0
           fi
           sed -i "s#ghcr.io/pinho-labs/plane-backend:.*#ghcr.io/pinho-labs/plane-backend:${{ github.sha }}#g" "$D/backend.yaml"
@@ -116,12 +116,12 @@ jobs:
             sed -i "s#ghcr.io/pinho-labs/plane-$svc:.*#ghcr.io/pinho-labs/plane-$svc:${{ github.sha }}#g" "$D/frontend.yaml"
           done
 
-      - name: Commit & push (dispara o Argo CD)
+      - name: Commit & push (triggers Argo CD)
         run: |
           git config user.name  "pinholabs-manifest-bot"
           git config user.email "manifest-bot@users.noreply.github.com"
           if git diff --quiet; then
-            echo "Manifests já estavam no SHA ${{ github.sha }}."
+            echo "Manifests were already at SHA ${{ github.sha }}."
           else
             git commit -am "plane: deploy ${{ github.sha }}"
             git push
