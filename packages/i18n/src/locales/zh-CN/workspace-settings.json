@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "导入",
+        "description": "通过将 CSV 文件上传到项目来批量创建工作项。",
+        "title": "导入",
+        "import_button": "导入 CSV",
+        "download_template": "下载 CSV 模板",
+        "copy_template": "复制模板",
+        "copy_rules": "复制规则给 AI",
+        "download_rules": "下载规则",
+        "tab_upload": "上传文件",
+        "tab_paste": "粘贴 CSV",
+        "paste_placeholder": "在此粘贴 CSV 内容，包括标题行",
+        "paste_validate": "验证",
+        "select_project": "选择项目",
+        "drop_csv": "点击或将 CSV 文件拖动到此处",
+        "drop_active": "将 CSV 拖放到此处……",
+        "invalid_file": "请上传有效的 .csv 文件（最大 {size}MB）。",
+        "skip_invalid": "跳过无效行并导入其余内容",
+        "importing": "正在导入",
+        "ready_count": "{count} 项就绪",
+        "error_count": "{count} 项有错误",
+        "row_label": "第 {row} 行",
+        "back": "返回",
+        "toasts": {
+          "success": {
+            "title": "导入完成",
+            "message": "已创建 {count} 个工作项。"
+          },
+          "queued": {
+            "title": "导入已排队",
+            "message": "您的导入正在后台处理。请在“以往导入”中跟踪。"
+          },
+          "error": {
+            "title": "导入失败",
+            "message": "无法完成导入。请检查文件后重试。"
+          },
+          "copied": {
+            "title": "已复制到剪贴板"
+          },
+          "copy_failed": {
+            "title": "复制失败",
+            "message": "无法访问剪贴板。请改用下载。"
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "在项目事件发生时自动向外部服务发送通知。",
@@ -178,11 +223,6 @@
         "description": "与流行的工具和服务连接，在整个工作流生态系统中同步您的工作。",
         "page_title": "在可用的应用或您自己的应用中使用您的 Plane 数据。",
         "page_description": "查看此工作区或您正在使用的所有集成。"
-      },
-      "imports": {
-        "title": "导入",
-        "heading": "导入",
-        "description": "连接并从现有的项目管理工具导入数据，以简化您的工作流集成。"
       },
       "worklogs": {
         "title": "工作日志",

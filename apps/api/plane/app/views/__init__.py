@@ -142,6 +142,13 @@ from .issue.comment import IssueCommentViewSet, CommentReactionViewSet
 
 from .issue.label import LabelViewSet, BulkCreateIssueLabelsEndpoint
 
+from .issue.import_csv import (
+    IssueCSVTemplateEndpoint,
+    IssueCSVRulesEndpoint,
+    IssueCSVImportValidateEndpoint,
+    IssueCSVImportEndpoint,
+)
+
 from .issue.link import IssueLinkViewSet
 
 from .issue.relation import IssueRelationViewSet

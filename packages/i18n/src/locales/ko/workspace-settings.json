@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "가져오기",
+        "description": "CSV 파일을 프로젝트에 업로드하여 작업 항목을 대량으로 생성합니다.",
+        "title": "가져오기",
+        "import_button": "CSV 가져오기",
+        "download_template": "CSV 템플릿 다운로드",
+        "copy_template": "템플릿 복사",
+        "copy_rules": "AI용 규칙 복사",
+        "download_rules": "규칙 다운로드",
+        "tab_upload": "파일 업로드",
+        "tab_paste": "CSV 붙여넣기",
+        "paste_placeholder": "헤더 행을 포함한 CSV 내용을 여기에 붙여넣으세요",
+        "paste_validate": "확인",
+        "select_project": "프로젝트 선택",
+        "drop_csv": "여기를 클릭하거나 CSV 파일을 끌어다 놓으세요",
+        "drop_active": "여기에 CSV를 놓으세요...",
+        "invalid_file": "유효한 .csv 파일을 업로드하세요 (최대 {size}MB).",
+        "skip_invalid": "유효하지 않은 행을 건너뛰고 나머지를 가져옵니다",
+        "importing": "가져오는 중",
+        "ready_count": "{count}개 준비됨",
+        "error_count": "{count}개 오류",
+        "row_label": "{row}행",
+        "back": "뒤로",
+        "toasts": {
+          "success": {
+            "title": "가져오기 완료",
+            "message": "{count}개의 작업 항목이 생성되었습니다."
+          },
+          "queued": {
+            "title": "가져오기 대기 중",
+            "message": "가져오기가 백그라운드에서 처리되고 있습니다. '이전 가져오기'에서 확인하세요."
+          },
+          "error": {
+            "title": "가져오기 실패",
+            "message": "가져오기를 완료할 수 없습니다. 파일을 확인하고 다시 시도하세요."
+          },
+          "copied": {
+            "title": "클립보드에 복사되었습니다"
+          },
+          "copy_failed": {
+            "title": "복사 실패",
+            "message": "클립보드에 접근할 수 없습니다. 대신 다운로드를 사용하세요."
+          }
+        }
+      },
       "webhooks": {
         "heading": "웹훅",
         "description": "프로젝트 이벤트가 발생할 때 외부 서비스로 알림을 자동화하세요.",
@@ -178,11 +223,6 @@
         "description": "인기 있는 도구 및 서비스와 연결하여 전체 워크플로우 에코시스템에서 작업을 동기화하세요.",
         "page_title": "Plane 데이터를 사용 가능한 앱이나 본인 소유 앱에서 활용하세요.",
         "page_description": "이 워크스페이스 또는 사용자가 사용하는 모든 통합을 확인하세요."
-      },
-      "imports": {
-        "title": "임포트",
-        "heading": "임포트",
-        "description": "기존 프로젝트 관리 도구에서 데이터를 연결하고 가져와 워크플로우 통합을 간소화하세요."
       },
       "worklogs": {
         "title": "워크로그",

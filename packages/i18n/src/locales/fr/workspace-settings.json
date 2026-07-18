@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importations",
+        "description": "Créez des éléments de travail en masse en téléversant un fichier CSV dans un projet.",
+        "title": "Importations",
+        "import_button": "Importer un CSV",
+        "download_template": "Télécharger le modèle CSV",
+        "copy_template": "Copier le modèle",
+        "copy_rules": "Copier les règles pour l’IA",
+        "download_rules": "Télécharger les règles",
+        "tab_upload": "Téléverser un fichier",
+        "tab_paste": "Coller le CSV",
+        "paste_placeholder": "Collez ici le contenu de votre CSV, y compris la ligne d’en-tête",
+        "paste_validate": "Valider",
+        "select_project": "Sélectionner un projet",
+        "drop_csv": "Cliquez ou glissez un fichier CSV ici",
+        "drop_active": "Déposez le CSV ici...",
+        "invalid_file": "Veuillez téléverser un fichier .csv valide (max. {size} MB).",
+        "skip_invalid": "Ignorer les lignes non valides et importer le reste",
+        "importing": "Importation en cours",
+        "ready_count": "{count} prêts",
+        "error_count": "{count} en erreur",
+        "row_label": "Ligne {row}",
+        "back": "Retour",
+        "toasts": {
+          "success": {
+            "title": "Importation terminée",
+            "message": "{count} éléments de travail ont été créés."
+          },
+          "queued": {
+            "title": "Importation en file d’attente",
+            "message": "Votre importation est en cours de traitement en arrière-plan. Suivez-la dans « Importations précédentes »."
+          },
+          "error": {
+            "title": "Échec de l’importation",
+            "message": "L’importation n’a pas pu être terminée. Veuillez vérifier le fichier et réessayer."
+          },
+          "copied": {
+            "title": "Copié dans le presse-papiers"
+          },
+          "copy_failed": {
+            "title": "Échec de la copie",
+            "message": "Impossible d’accéder au presse-papiers. Utilisez plutôt le téléchargement."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "Automatisez les notifications vers des services externes lors d’événements du projet.",
@@ -178,11 +223,6 @@
         "description": "Connectez-vous avec des outils et services populaires pour synchroniser votre travail dans tout votre écosystème.",
         "page_title": "Travaillez avec vos données Plane dans les applications disponibles ou dans les vôtres.",
         "page_description": "Affichez toutes les intégrations utilisées par cet espace de travail ou par vous."
-      },
-      "imports": {
-        "title": "Importations",
-        "heading": "Importations",
-        "description": "Connectez et importez des données depuis vos outils de gestion de projet existants pour simplifier l’intégration de votre flux de travail."
       },
       "worklogs": {
         "title": "Journaux de travail",

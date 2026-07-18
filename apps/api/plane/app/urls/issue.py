@@ -31,6 +31,10 @@ from plane.app.views import (
     WorkItemDescriptionVersionEndpoint,
     IssueMetaEndpoint,
     IssueDetailIdentifierEndpoint,
+    IssueCSVTemplateEndpoint,
+    IssueCSVRulesEndpoint,
+    IssueCSVImportValidateEndpoint,
+    IssueCSVImportEndpoint,
 )
 
 urlpatterns = [
@@ -89,6 +93,26 @@ urlpatterns = [
         "workspaces/<str:slug>/projects/<uuid:project_id>/bulk-create-labels/",
         BulkCreateIssueLabelsEndpoint.as_view(),
         name="project-bulk-labels",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/import-csv/template/",
+        IssueCSVTemplateEndpoint.as_view(),
+        name="project-issues-import-csv-template",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/import-csv/rules/",
+        IssueCSVRulesEndpoint.as_view(),
+        name="project-issues-import-csv-rules",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/import-csv/validate/",
+        IssueCSVImportValidateEndpoint.as_view(),
+        name="project-issues-import-csv-validate",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/import-csv/",
+        IssueCSVImportEndpoint.as_view(),
+        name="project-issues-import-csv",
     ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/bulk-delete-issues/",

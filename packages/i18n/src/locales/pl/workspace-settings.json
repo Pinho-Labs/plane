@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importy",
+        "description": "Twórz zbiorczo elementy pracy, przesyłając plik CSV do projektu.",
+        "title": "Importy",
+        "import_button": "Importuj CSV",
+        "download_template": "Pobierz szablon CSV",
+        "copy_template": "Kopiuj szablon",
+        "copy_rules": "Kopiuj reguły dla AI",
+        "download_rules": "Pobierz reguły",
+        "tab_upload": "Prześlij plik",
+        "tab_paste": "Wklej CSV",
+        "paste_placeholder": "Wklej tutaj zawartość CSV, w tym wiersz nagłówka",
+        "paste_validate": "Sprawdź",
+        "select_project": "Wybierz projekt",
+        "drop_csv": "Kliknij lub przeciągnij plik CSV tutaj",
+        "drop_active": "Upuść plik CSV tutaj...",
+        "invalid_file": "Prześlij prawidłowy plik .csv (maks. {size}MB).",
+        "skip_invalid": "Pomiń nieprawidłowe wiersze i zaimportuj pozostałe",
+        "importing": "Importowanie",
+        "ready_count": "{count} gotowych",
+        "error_count": "{count} z błędami",
+        "row_label": "Wiersz {row}",
+        "back": "Wstecz",
+        "toasts": {
+          "success": {
+            "title": "Import zakończony",
+            "message": "Utworzono {count} elementów pracy."
+          },
+          "queued": {
+            "title": "Import w kolejce",
+            "message": "Twój import jest przetwarzany w tle. Śledź go w sekcji „Poprzednie importy”."
+          },
+          "error": {
+            "title": "Import nie powiódł się",
+            "message": "Nie udało się ukończyć importu. Sprawdź plik i spróbuj ponownie."
+          },
+          "copied": {
+            "title": "Skopiowano do schowka"
+          },
+          "copy_failed": {
+            "title": "Kopiowanie nie powiodło się",
+            "message": "Nie udało się uzyskać dostępu do schowka. Zamiast tego użyj pobierania."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooki",
         "description": "Automatyzuj powiadomienia do usług zewnętrznych, gdy wystąpią zdarzenia projektowe.",
@@ -178,11 +223,6 @@
         "description": "Łącz się z popularnymi narzędziami i usługami, aby synchronizować pracę w całym ekosystemie przepływu pracy.",
         "page_title": "Pracuj ze swoimi danymi Plane w dostępnych aplikacjach lub we własnych.",
         "page_description": "Zobacz wszystkie integracje używane przez tę przestrzeń roboczą lub przez Ciebie."
-      },
-      "imports": {
-        "title": "Importy",
-        "heading": "Importy",
-        "description": "Łącz i importuj dane z istniejących narzędzi do zarządzania projektami, aby usprawnić integrację przepływu pracy."
       },
       "worklogs": {
         "title": "Logi pracy",

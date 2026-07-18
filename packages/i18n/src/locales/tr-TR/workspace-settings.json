@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "İçe aktarmalar",
+        "description": "Bir projeye CSV dosyası yükleyerek toplu iş öğesi oluşturun.",
+        "title": "İçe aktarmalar",
+        "import_button": "CSV içe aktar",
+        "download_template": "CSV şablonunu indir",
+        "copy_template": "Şablonu kopyala",
+        "copy_rules": "Kuralları AI için kopyala",
+        "download_rules": "Kuralları indir",
+        "tab_upload": "Dosya yükle",
+        "tab_paste": "CSV yapıştır",
+        "paste_placeholder": "CSV içeriğinizi başlık satırı dahil buraya yapıştırın",
+        "paste_validate": "Doğrula",
+        "select_project": "Bir proje seçin",
+        "drop_csv": "Buraya bir CSV dosyası tıklayın veya sürükleyin",
+        "drop_active": "CSV'yi buraya bırakın...",
+        "invalid_file": "Lütfen geçerli bir .csv dosyası yükleyin (en fazla {size}MB).",
+        "skip_invalid": "Geçersiz satırları atla ve geri kalanını içe aktar",
+        "importing": "İçe aktarılıyor",
+        "ready_count": "{count} hazır",
+        "error_count": "{count} hatalı",
+        "row_label": "Satır {row}",
+        "back": "Geri",
+        "toasts": {
+          "success": {
+            "title": "İçe aktarma tamamlandı",
+            "message": "{count} iş öğesi oluşturuldu."
+          },
+          "queued": {
+            "title": "İçe aktarma sıraya alındı",
+            "message": "İçe aktarma işleminiz arka planda işleniyor. \"Önceki içe aktarmalar\" bölümünden takip edin."
+          },
+          "error": {
+            "title": "İçe aktarma başarısız",
+            "message": "İçe aktarma tamamlanamadı. Lütfen dosyayı kontrol edip tekrar deneyin."
+          },
+          "copied": {
+            "title": "Panoya kopyalandı"
+          },
+          "copy_failed": {
+            "title": "Kopyalama başarısız",
+            "message": "Panoya erişilemedi. Bunun yerine indirmeyi deneyin."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhook'lar",
         "description": "Proje olayları gerçekleştiğinde harici hizmetlere bildirimleri otomatikleştirin.",
@@ -178,11 +223,6 @@
         "description": "Tüm iş akışı ekosisteminizde işinizi senkronize etmek için popüler araçlar ve hizmetlerle bağlantı kurun.",
         "page_title": "Plane verilerinizi mevcut uygulamalarda veya kendi uygulamalarınızda kullanın.",
         "page_description": "Bu çalışma alanı veya sizin tarafınızdan kullanılan tüm entegrasyonları görüntüleyin."
-      },
-      "imports": {
-        "title": "İmportlar",
-        "heading": "İmportlar",
-        "description": "İş akışı entegrasyonunuzu kolaylaştırmak için mevcut proje yönetim araçlarınızdan verileri bağlayın ve içe aktarın."
       },
       "worklogs": {
         "title": "Workloglar",

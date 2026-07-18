@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Nhập",
+        "description": "Tạo hàng loạt mục công việc bằng cách tải lên tệp CSV vào một dự án.",
+        "title": "Nhập",
+        "import_button": "Nhập CSV",
+        "download_template": "Tải mẫu CSV",
+        "copy_template": "Sao chép mẫu",
+        "copy_rules": "Sao chép quy tắc cho AI",
+        "download_rules": "Tải quy tắc",
+        "tab_upload": "Tải tệp lên",
+        "tab_paste": "Dán CSV",
+        "paste_placeholder": "Dán nội dung CSV của bạn vào đây, bao gồm cả hàng tiêu đề",
+        "paste_validate": "Xác thực",
+        "select_project": "Chọn một dự án",
+        "drop_csv": "Nhấp hoặc kéo tệp CSV vào đây",
+        "drop_active": "Thả tệp CSV vào đây...",
+        "invalid_file": "Vui lòng tải lên tệp .csv hợp lệ (tối đa {size}MB).",
+        "skip_invalid": "Bỏ qua các hàng không hợp lệ và nhập phần còn lại",
+        "importing": "Đang nhập",
+        "ready_count": "{count} sẵn sàng",
+        "error_count": "{count} có lỗi",
+        "row_label": "Hàng {row}",
+        "back": "Quay lại",
+        "toasts": {
+          "success": {
+            "title": "Nhập hoàn tất",
+            "message": "Đã tạo {count} mục công việc."
+          },
+          "queued": {
+            "title": "Đã đưa vào hàng đợi nhập",
+            "message": "Quá trình nhập của bạn đang được xử lý ở chế độ nền. Theo dõi trong mục \"Các lần nhập trước\"."
+          },
+          "error": {
+            "title": "Nhập thất bại",
+            "message": "Không thể hoàn tất quá trình nhập. Vui lòng kiểm tra tệp và thử lại."
+          },
+          "copied": {
+            "title": "Đã sao chép vào bộ nhớ tạm"
+          },
+          "copy_failed": {
+            "title": "Sao chép thất bại",
+            "message": "Không thể truy cập bộ nhớ tạm. Hãy dùng tải xuống thay thế."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhook",
         "description": "Tự động hóa thông báo đến các dịch vụ bên ngoài khi các sự kiện dự án xảy ra.",
@@ -178,11 +223,6 @@
         "description": "Kết nối với các công cụ và dịch vụ phổ biến để đồng bộ hóa công việc của bạn trong toàn bộ hệ sinh thái quy trình làm việc.",
         "page_title": "Làm việc với dữ liệu Plane của bạn trong các ứng dụng có sẵn hoặc ứng dụng riêng của bạn.",
         "page_description": "Xem tất cả các tích hợp được workspace này hoặc bạn đang sử dụng."
-      },
-      "imports": {
-        "title": "Nhập dữ liệu",
-        "heading": "Nhập",
-        "description": "Kết nối và nhập dữ liệu từ các công cụ quản lý dự án hiện có của bạn để tinh giản việc tích hợp quy trình làm việc."
       },
       "worklogs": {
         "title": "Nhật ký công việc",

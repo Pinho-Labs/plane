@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "インポート",
+        "description": "CSVファイルをプロジェクトにアップロードして、作業項目を一括作成します。",
+        "title": "インポート",
+        "import_button": "CSVをインポート",
+        "download_template": "CSVテンプレートをダウンロード",
+        "copy_template": "テンプレートをコピー",
+        "copy_rules": "AI用のルールをコピー",
+        "download_rules": "ルールをダウンロード",
+        "tab_upload": "ファイルをアップロード",
+        "tab_paste": "CSVを貼り付け",
+        "paste_placeholder": "ヘッダー行を含むCSVの内容をここに貼り付けてください",
+        "paste_validate": "検証",
+        "select_project": "プロジェクトを選択",
+        "drop_csv": "ここをクリックまたはCSVファイルをドラッグしてください",
+        "drop_active": "ここにCSVをドロップ……",
+        "invalid_file": "有効な.csvファイルをアップロードしてください（最大{size}MB）。",
+        "skip_invalid": "無効な行をスキップして残りをインポートする",
+        "importing": "インポート中",
+        "ready_count": "{count}件準備完了",
+        "error_count": "{count}件エラーあり",
+        "row_label": "{row}行目",
+        "back": "戻る",
+        "toasts": {
+          "success": {
+            "title": "インポートが完了しました",
+            "message": "{count}件の作業項目が作成されました。"
+          },
+          "queued": {
+            "title": "インポートをキューに追加しました",
+            "message": "インポートはバックグラウンドで処理されています。「以前のインポート」で確認できます。"
+          },
+          "error": {
+            "title": "インポートに失敗しました",
+            "message": "インポートを完了できませんでした。ファイルを確認して、もう一度お試しください。"
+          },
+          "copied": {
+            "title": "クリップボードにコピーしました"
+          },
+          "copy_failed": {
+            "title": "コピーに失敗しました",
+            "message": "クリップボードにアクセスできませんでした。代わりにダウンロードをご利用ください。"
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhook",
         "description": "プロジェクトイベントが発生したときに、外部サービスへの通知を自動化します。",
@@ -178,11 +223,6 @@
         "description": "人気のツールやサービスと接続して、ワークフローエコシステム全体で作業を同期します。",
         "page_title": "Plane のデータを利用可能なアプリや自分のアプリで利用できます。",
         "page_description": "このワークスペースまたはあなたが使用しているすべての連携を表示します。"
-      },
-      "imports": {
-        "title": "インポート",
-        "heading": "インポート",
-        "description": "既存のプロジェクト管理ツールからデータを接続・インポートして、ワークフロー統合を効率化します。"
       },
       "worklogs": {
         "title": "作業ログ",

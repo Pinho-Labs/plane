@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importe",
+        "description": "Erstellen Sie mehrere Arbeitselemente auf einmal, indem Sie eine CSV-Datei in ein Projekt hochladen.",
+        "title": "Importe",
+        "import_button": "CSV importieren",
+        "download_template": "CSV-Vorlage herunterladen",
+        "copy_template": "Vorlage kopieren",
+        "copy_rules": "Regeln für KI kopieren",
+        "download_rules": "Regeln herunterladen",
+        "tab_upload": "Datei hochladen",
+        "tab_paste": "CSV einfügen",
+        "paste_placeholder": "Fügen Sie hier Ihren CSV-Inhalt ein, einschließlich der Kopfzeile",
+        "paste_validate": "Validieren",
+        "select_project": "Projekt auswählen",
+        "drop_csv": "Klicken Sie oder ziehen Sie eine CSV-Datei hierher",
+        "drop_active": "CSV hier ablegen...",
+        "invalid_file": "Bitte laden Sie eine gültige .csv-Datei hoch (max. {size}MB).",
+        "skip_invalid": "Ungültige Zeilen überspringen und den Rest importieren",
+        "importing": "Wird importiert",
+        "ready_count": "{count} bereit",
+        "error_count": "{count} mit Fehlern",
+        "row_label": "Zeile {row}",
+        "back": "Zurück",
+        "toasts": {
+          "success": {
+            "title": "Import abgeschlossen",
+            "message": "{count} Arbeitselemente wurden erstellt."
+          },
+          "queued": {
+            "title": "Import in Warteschlange",
+            "message": "Ihr Import wird im Hintergrund verarbeitet. Verfolgen Sie ihn unter „Frühere Importe“."
+          },
+          "error": {
+            "title": "Import fehlgeschlagen",
+            "message": "Der Import konnte nicht abgeschlossen werden. Bitte überprüfen Sie die Datei und versuchen Sie es erneut."
+          },
+          "copied": {
+            "title": "In die Zwischenablage kopiert"
+          },
+          "copy_failed": {
+            "title": "Kopieren fehlgeschlagen",
+            "message": "Auf die Zwischenablage konnte nicht zugegriffen werden. Nutzen Sie stattdessen den Download."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "Automatisieren Sie Benachrichtigungen an externe Dienste, wenn Projektereignisse auftreten.",
@@ -178,11 +223,6 @@
         "description": "Verbinden Sie sich mit beliebten Tools und Diensten, um Ihre Arbeit über Ihr gesamtes Workflow-Ökosystem zu synchronisieren.",
         "page_title": "Arbeiten Sie mit Ihren Plane-Daten in verfügbaren Apps oder in Ihren eigenen.",
         "page_description": "Sehen Sie sich alle Integrationen an, die von diesem Workspace oder von Ihnen verwendet werden."
-      },
-      "imports": {
-        "title": "Importe",
-        "heading": "Importe",
-        "description": "Verbinden und importieren Sie Daten aus Ihren bestehenden Projektmanagement-Tools, um Ihre Workflow-Integration zu optimieren."
       },
       "worklogs": {
         "title": "Arbeitsberichte",

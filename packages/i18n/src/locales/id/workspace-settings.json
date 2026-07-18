@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Impor",
+        "description": "Buat item kerja secara massal dengan mengunggah file CSV ke sebuah proyek.",
+        "title": "Impor",
+        "import_button": "Impor CSV",
+        "download_template": "Unduh templat CSV",
+        "copy_template": "Salin templat",
+        "copy_rules": "Salin aturan untuk AI",
+        "download_rules": "Unduh aturan",
+        "tab_upload": "Unggah file",
+        "tab_paste": "Tempel CSV",
+        "paste_placeholder": "Tempel konten CSV Anda di sini, termasuk baris header",
+        "paste_validate": "Validasi",
+        "select_project": "Pilih proyek",
+        "drop_csv": "Klik atau seret file CSV ke sini",
+        "drop_active": "Lepaskan CSV di sini...",
+        "invalid_file": "Silakan unggah file .csv yang valid (maks. {size}MB).",
+        "skip_invalid": "Lewati baris yang tidak valid dan impor sisanya",
+        "importing": "Mengimpor",
+        "ready_count": "{count} siap",
+        "error_count": "{count} dengan kesalahan",
+        "row_label": "Baris {row}",
+        "back": "Kembali",
+        "toasts": {
+          "success": {
+            "title": "Impor selesai",
+            "message": "{count} item kerja telah dibuat."
+          },
+          "queued": {
+            "title": "Impor dalam antrean",
+            "message": "Impor Anda sedang diproses di latar belakang. Lacak di \"Impor sebelumnya\"."
+          },
+          "error": {
+            "title": "Impor gagal",
+            "message": "Impor tidak dapat diselesaikan. Silakan periksa file dan coba lagi."
+          },
+          "copied": {
+            "title": "Disalin ke papan klip"
+          },
+          "copy_failed": {
+            "title": "Gagal menyalin",
+            "message": "Tidak dapat mengakses papan klip. Gunakan unduhan sebagai gantinya."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhook",
         "description": "Otomatiskan notifikasi ke layanan eksternal saat peristiwa proyek terjadi.",
@@ -178,11 +223,6 @@
         "description": "Hubungkan dengan alat dan layanan populer untuk menyinkronkan pekerjaan Anda di seluruh ekosistem alur kerja Anda.",
         "page_title": "Gunakan data Plane Anda di aplikasi yang tersedia atau aplikasi Anda sendiri.",
         "page_description": "Lihat semua integrasi yang digunakan oleh workspace ini atau oleh Anda."
-      },
-      "imports": {
-        "title": "Impor",
-        "heading": "Impor",
-        "description": "Hubungkan dan impor data dari alat manajemen proyek Anda yang sudah ada untuk menyederhanakan integrasi alur kerja."
       },
       "worklogs": {
         "title": "Log kerja",

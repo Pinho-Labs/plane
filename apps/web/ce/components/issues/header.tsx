@@ -25,6 +25,7 @@ import { Breadcrumbs, Header } from "@plane/ui";
 // components
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { CountChip } from "@/components/common/count-chip";
+import { ImportWorkItemsButton } from "@/components/importer";
 // constants
 import { HeaderFilters } from "@/components/issues/filters";
 // helpers
@@ -116,6 +117,7 @@ export const IssuesHeader = observer(function IssuesHeader() {
             canUserCreateIssue={canUserCreateIssue}
           />
         </div>
+        {canUserCreateIssue && projectId && <ImportWorkItemsButton projectId={projectId.toString()} />}
         {canUserCreateIssue && (
           <Button
             variant="primary"
