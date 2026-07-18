@@ -30,6 +30,7 @@ import { cn } from "@plane/utils";
 // components
 import { WorkItemsModal } from "@/components/analytics/work-items/modal";
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
+import { ImportWorkItemsButton } from "@/components/importer";
 import { SwitcherLabel } from "@/components/common/switcher-label";
 import { CycleQuickActions } from "@/components/cycles/quick-actions";
 import {
@@ -75,7 +76,7 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
 
   const { setValue, storedValue } = useLocalStorage("cycle_sidebar_collapsed", false);
 
-  const isSidebarCollapsed = storedValue ? (storedValue === true ? true : false) : false;
+  const isSidebarCollapsed = storedValue === true;
   const toggleSidebar = () => {
     setValue(!isSidebarCollapsed);
   };
@@ -239,6 +240,7 @@ export const CycleIssuesHeader = observer(function CycleIssuesHeader() {
                     <ChartNoAxesColumn className="size-3.5" />
                   </span>
                 </Button>
+                {projectId && <ImportWorkItemsButton projectId={projectId.toString()} />}
                 {!isCompletedCycle && (
                   <Button
                     variant="primary"

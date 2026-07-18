@@ -27,6 +27,7 @@ import { cn } from "@plane/utils";
 // components
 import { WorkItemsModal } from "@/components/analytics/work-items/modal";
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
+import { ImportWorkItemsButton } from "@/components/importer";
 import { SwitcherLabel } from "@/components/common/switcher-label";
 import {
   DisplayFiltersSelection,
@@ -74,7 +75,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
   // local storage
   const { setValue, storedValue } = useLocalStorage("module_sidebar_collapsed", "false");
   // derived values
-  const isSidebarCollapsed = storedValue ? (storedValue === "true" ? true : false) : false;
+  const isSidebarCollapsed = storedValue === "true";
   const activeLayout = issueFilters?.displayFilters?.layout;
   const moduleDetails = moduleId ? getModuleById(moduleId) : undefined;
   const canUserCreateIssue = allowPermissions(
@@ -234,6 +235,7 @@ export const ModuleIssuesHeader = observer(function ModuleIssuesHeader() {
                   <ChartNoAxesColumn className="size-3.5" />
                 </span>
               </Button>
+              {projectId && <ImportWorkItemsButton projectId={projectId.toString()} />}
               <Button
                 variant="primary"
                 size="lg"
