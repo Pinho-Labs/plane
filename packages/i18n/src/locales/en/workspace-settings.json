@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Imports",
+        "description": "Bulk-create work items by uploading a CSV file into a project.",
+        "title": "Imports",
+        "import_button": "Import CSV",
+        "download_template": "Download CSV template",
+        "copy_template": "Copy template",
+        "copy_rules": "Copy rules for AI",
+        "download_rules": "Download rules",
+        "tab_upload": "Upload file",
+        "tab_paste": "Paste CSV",
+        "paste_placeholder": "Paste your CSV content here, including the header row",
+        "paste_validate": "Validate",
+        "select_project": "Select a project",
+        "drop_csv": "Click or drag a CSV file here",
+        "drop_active": "Drop the CSV here...",
+        "invalid_file": "Please upload a valid .csv file (max {size}MB).",
+        "skip_invalid": "Skip invalid rows and import the rest",
+        "importing": "Importing",
+        "ready_count": "{count} ready",
+        "error_count": "{count} with errors",
+        "row_label": "Row {row}",
+        "back": "Back",
+        "toasts": {
+          "success": {
+            "title": "Import complete",
+            "message": "{count} work items were created."
+          },
+          "queued": {
+            "title": "Import queued",
+            "message": "Your import is processing in the background. Track it under Previous imports."
+          },
+          "error": {
+            "title": "Import failed",
+            "message": "The import could not be completed. Please check the file and try again."
+          },
+          "copied": {
+            "title": "Copied to clipboard"
+          },
+          "copy_failed": {
+            "title": "Copy failed",
+            "message": "Couldn't access the clipboard. Try the download instead."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "Automate notifications to external services when project events occur.",
@@ -178,11 +223,6 @@
         "description": "Connect with popular tools and services to sync your work across your entire workflow ecosystem.",
         "page_title": "Work with your Plane data in available apps or your own.",
         "page_description": "View all the integrations in use by this workspace or you."
-      },
-      "imports": {
-        "title": "Imports",
-        "heading": "Imports",
-        "description": "Connect and import data from your existing project management tools to streamline your workflow integration."
       },
       "worklogs": {
         "title": "Worklogs",

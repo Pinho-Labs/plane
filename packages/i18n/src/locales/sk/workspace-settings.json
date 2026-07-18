@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importy",
+        "description": "Hromadne vytvárajte pracovné položky nahraním súboru CSV do projektu.",
+        "title": "Importy",
+        "import_button": "Importovať CSV",
+        "download_template": "Stiahnuť šablónu CSV",
+        "copy_template": "Kopírovať šablónu",
+        "copy_rules": "Kopírovať pravidlá pre AI",
+        "download_rules": "Stiahnuť pravidlá",
+        "tab_upload": "Nahrať súbor",
+        "tab_paste": "Vložiť CSV",
+        "paste_placeholder": "Vložte sem obsah CSV vrátane riadka záhlavia",
+        "paste_validate": "Overiť",
+        "select_project": "Vyberte projekt",
+        "drop_csv": "Kliknite alebo sem presuňte súbor CSV",
+        "drop_active": "Presuňte sem CSV...",
+        "invalid_file": "Nahrajte platný súbor .csv (max. {size}MB).",
+        "skip_invalid": "Preskočiť neplatné riadky a importovať zvyšok",
+        "importing": "Importovanie",
+        "ready_count": "{count} pripravených",
+        "error_count": "{count} s chybami",
+        "row_label": "Riadok {row}",
+        "back": "Späť",
+        "toasts": {
+          "success": {
+            "title": "Import dokončený",
+            "message": "Vytvorilo sa {count} pracovných položiek."
+          },
+          "queued": {
+            "title": "Import v poradí",
+            "message": "Váš import sa spracúva na pozadí. Sledujte ho v sekcii „Predchádzajúce importy“."
+          },
+          "error": {
+            "title": "Import zlyhal",
+            "message": "Import sa nepodarilo dokončiť. Skontrolujte súbor a skúste to znova."
+          },
+          "copied": {
+            "title": "Skopírované do schránky"
+          },
+          "copy_failed": {
+            "title": "Kopírovanie zlyhalo",
+            "message": "Nepodarilo sa získať prístup k schránke. Použite namiesto toho stiahnutie."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooky",
         "description": "Automatizujte oznámenia do externých služieb pri udalostiach v projekte.",
@@ -178,11 +223,6 @@
         "description": "Prepojte sa s populárnymi nástrojmi a službami a synchronizujte svoju prácu v rámci celého ekosystému pracovného postupu.",
         "page_title": "Pracujte so svojimi údajmi Plane v dostupných aplikáciách alebo vo vlastných.",
         "page_description": "Zobraziť všetky integrácie používané týmto pracovným priestorom alebo vami."
-      },
-      "imports": {
-        "title": "Importy",
-        "heading": "Importy",
-        "description": "Pripojte a importujte údaje z existujúcich nástrojov na riadenie projektov a zefektívnite integráciu svojho pracovného postupu."
       },
       "worklogs": {
         "title": "Pracovné záznamy",

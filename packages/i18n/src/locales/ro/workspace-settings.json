@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importuri",
+        "description": "Creați în masă activități încărcând un fișier CSV într-un proiect.",
+        "title": "Importuri",
+        "import_button": "Importați CSV",
+        "download_template": "Descărcați șablonul CSV",
+        "copy_template": "Copiați șablonul",
+        "copy_rules": "Copiați regulile pentru IA",
+        "download_rules": "Descărcați regulile",
+        "tab_upload": "Încărcați fișier",
+        "tab_paste": "Lipiți CSV",
+        "paste_placeholder": "Lipiți aici conținutul CSV, inclusiv rândul de antet",
+        "paste_validate": "Validați",
+        "select_project": "Selectați un proiect",
+        "drop_csv": "Faceți clic sau trageți un fișier CSV aici",
+        "drop_active": "Plasați CSV aici...",
+        "invalid_file": "Încărcați un fișier .csv valid (max. {size}MB).",
+        "skip_invalid": "Omiteți rândurile nevalide și importați restul",
+        "importing": "Se importă",
+        "ready_count": "{count} pregătite",
+        "error_count": "{count} cu erori",
+        "row_label": "Rândul {row}",
+        "back": "Înapoi",
+        "toasts": {
+          "success": {
+            "title": "Import finalizat",
+            "message": "Au fost create {count} activități."
+          },
+          "queued": {
+            "title": "Import în așteptare",
+            "message": "Importul dvs. este procesat în fundal. Urmăriți-l în secțiunea „Importuri anterioare”."
+          },
+          "error": {
+            "title": "Import eșuat",
+            "message": "Importul nu a putut fi finalizat. Verificați fișierul și încercați din nou."
+          },
+          "copied": {
+            "title": "Copiat în clipboard"
+          },
+          "copy_failed": {
+            "title": "Copierea a eșuat",
+            "message": "Nu s-a putut accesa clipboardul. Folosiți descărcarea în schimb."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhook-uri",
         "description": "Automatizează notificările către servicii externe când se produc evenimente ale proiectului.",
@@ -178,11 +223,6 @@
         "description": "Conectează-te cu instrumente și servicii populare pentru a sincroniza munca ta în întregul ecosistem al fluxului de lucru.",
         "page_title": "Lucrează cu datele tale Plane în aplicațiile disponibile sau în ale tale proprii.",
         "page_description": "Vizualizează toate integrările utilizate de acest spațiu de lucru sau de tine."
-      },
-      "imports": {
-        "title": "Importuri",
-        "heading": "Importuri",
-        "description": "Conectează-te și importă date din instrumentele tale existente de gestionare a proiectelor pentru a-ți simplifica integrarea fluxului de lucru."
       },
       "worklogs": {
         "title": "Jurnale de lucru",

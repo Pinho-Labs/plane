@@ -95,7 +95,7 @@ from .module import (
 
 from .api import APITokenSerializer, APITokenReadSerializer
 
-from .importer import ImporterSerializer
+from .importer import ImporterSerializer, IssueImportSerializer
 
 from .page import (
     PageSerializer,

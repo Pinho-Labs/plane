@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "匯入",
+        "description": "透過將 CSV 檔案上傳到專案來批次建立工作事項。",
+        "title": "匯入",
+        "import_button": "匯入 CSV",
+        "download_template": "下載 CSV 範本",
+        "copy_template": "複製範本",
+        "copy_rules": "複製規則給 AI",
+        "download_rules": "下載規則",
+        "tab_upload": "上傳檔案",
+        "tab_paste": "貼上 CSV",
+        "paste_placeholder": "在此貼上 CSV 內容，包括標題列",
+        "paste_validate": "驗證",
+        "select_project": "選擇專案",
+        "drop_csv": "點擊或將 CSV 檔案拖曳到此處",
+        "drop_active": "將 CSV 拖放到此處……",
+        "invalid_file": "請上傳有效的 .csv 檔案（上限 {size}MB）。",
+        "skip_invalid": "略過無效的列並匯入其餘部分",
+        "importing": "正在匯入",
+        "ready_count": "{count} 項已就緒",
+        "error_count": "{count} 項有錯誤",
+        "row_label": "第 {row} 列",
+        "back": "返回",
+        "toasts": {
+          "success": {
+            "title": "匯入完成",
+            "message": "已建立 {count} 個工作事項。"
+          },
+          "queued": {
+            "title": "匯入已排入佇列",
+            "message": "您的匯入正在背景處理中。請在「先前的匯入」中追蹤。"
+          },
+          "error": {
+            "title": "匯入失敗",
+            "message": "無法完成匯入。請檢查檔案後再試一次。"
+          },
+          "copied": {
+            "title": "已複製到剪貼簿"
+          },
+          "copy_failed": {
+            "title": "複製失敗",
+            "message": "無法存取剪貼簿。請改用下載。"
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "當專案事件發生時，自動向外部服務傳送通知。",
@@ -178,11 +223,6 @@
         "description": "與常用工具和服務連結，以便在整個工作流程生態系中同步您的工作。",
         "page_title": "在可用的應用程式或您自己的應用程式中使用您的 Plane 資料。",
         "page_description": "查看此工作區或您正在使用的所有整合。"
-      },
-      "imports": {
-        "title": "導入",
-        "heading": "匯入",
-        "description": "從您現有的專案管理工具連接並匯入資料，以簡化您的工作流程整合。"
       },
       "worklogs": {
         "title": "工作日誌",

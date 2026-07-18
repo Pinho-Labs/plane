@@ -97,6 +97,51 @@
           }
         }
       },
+      "imports": {
+        "heading": "Importações",
+        "description": "Crie itens de trabalho em massa enviando um arquivo CSV para um projeto.",
+        "title": "Importações",
+        "import_button": "Importar CSV",
+        "download_template": "Baixar modelo CSV",
+        "copy_template": "Copiar modelo",
+        "copy_rules": "Copiar regras para a IA",
+        "download_rules": "Baixar regras",
+        "tab_upload": "Enviar arquivo",
+        "tab_paste": "Colar CSV",
+        "paste_placeholder": "Cole aqui o conteúdo do seu CSV, incluindo a linha de cabeçalho",
+        "paste_validate": "Validar",
+        "select_project": "Selecione um projeto",
+        "drop_csv": "Clique ou arraste um arquivo CSV aqui",
+        "drop_active": "Solte o CSV aqui...",
+        "invalid_file": "Envie um arquivo .csv válido (máx. {size}MB).",
+        "skip_invalid": "Ignorar as linhas inválidas e importar o restante",
+        "importing": "Importando",
+        "ready_count": "{count} prontas",
+        "error_count": "{count} com erros",
+        "row_label": "Linha {row}",
+        "back": "Voltar",
+        "toasts": {
+          "success": {
+            "title": "Importação concluída",
+            "message": "{count} itens de trabalho foram criados."
+          },
+          "queued": {
+            "title": "Importação na fila",
+            "message": "Sua importação está sendo processada em segundo plano. Acompanhe em \"Importações anteriores\"."
+          },
+          "error": {
+            "title": "Falha na importação",
+            "message": "Não foi possível concluir a importação. Verifique o arquivo e tente novamente."
+          },
+          "copied": {
+            "title": "Copiado para a área de transferência"
+          },
+          "copy_failed": {
+            "title": "Falha ao copiar",
+            "message": "Não foi possível acessar a área de transferência. Use o download."
+          }
+        }
+      },
       "webhooks": {
         "heading": "Webhooks",
         "description": "Automatize notificações para serviços externos quando ocorrerem eventos do projeto.",
@@ -178,11 +223,6 @@
         "description": "Conecte-se com ferramentas e serviços populares para sincronizar seu trabalho em todo o seu ecossistema de fluxo de trabalho.",
         "page_title": "Trabalhe com seus dados do Plane em aplicativos disponíveis ou nos seus próprios.",
         "page_description": "Veja todas as integrações em uso por este workspace ou por você."
-      },
-      "imports": {
-        "title": "Importações",
-        "heading": "Importações",
-        "description": "Conecte e importe dados das suas ferramentas de gerenciamento de projetos existentes para otimizar a integração do seu fluxo de trabalho."
       },
       "worklogs": {
         "title": "Registros de trabalho",

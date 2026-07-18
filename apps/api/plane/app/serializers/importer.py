@@ -7,7 +7,7 @@ from .base import BaseSerializer
 from .user import UserLiteSerializer
 from .project import ProjectLiteSerializer
 from .workspace import WorkspaceLiteSerializer
-from plane.db.models import Importer
+from plane.db.models import Importer, IssueImport
 
 
 class ImporterSerializer(BaseSerializer):
@@ -18,3 +18,24 @@ class ImporterSerializer(BaseSerializer):
     class Meta:
         model = Importer
         fields = "__all__"
+
+
+class IssueImportSerializer(BaseSerializer):
+    initiated_by_detail = UserLiteSerializer(source="initiated_by", read_only=True)
+
+    class Meta:
+        model = IssueImport
+        fields = "__all__"
+        read_only_fields = [
+            "id",
+            "workspace",
+            "project",
+            "status",
+            "total_rows",
+            "created_rows",
+            "skipped_rows",
+            "failed_rows",
+            "error_report",
+            "created_at",
+            "updated_at",
+        ]
