@@ -83,7 +83,7 @@ jobs:
   # Prerequisites in the fork repo (Pinho-Labs/plane) -> Settings -> Secrets and variables -> Actions:
   #   - Variable  MANIFESTS_APP_ID   (the App ID — same App as exemplo-app)
   #   - Secret    MANIFESTS_APP_KEY  (the App's .pem private key)
-  # The App must be installed on the felipesantoos/infra-manifests repo with Contents: Read and write.
+  # The App must be installed on the Pinho-Labs/infra-manifests repo with Contents: Read and write.
   update-manifest:
     needs: build                 # only after the 5 builds pass
     runs-on: ubuntu-latest
@@ -94,13 +94,13 @@ jobs:
         with:
           app-id: ${{ vars.MANIFESTS_APP_ID }}
           private-key: ${{ secrets.MANIFESTS_APP_KEY }}
-          owner: felipesantoos
+          owner: Pinho-Labs
           repositories: infra-manifests
 
       - name: Checkout infra-manifests
         uses: actions/checkout@v4
         with:
-          repository: felipesantoos/infra-manifests
+          repository: Pinho-Labs/infra-manifests
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Pin the 5 images to this commit's SHA
