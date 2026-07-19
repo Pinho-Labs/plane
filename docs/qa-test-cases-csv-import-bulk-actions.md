@@ -31,26 +31,43 @@ mais importantes que o QA deve validar.
    - Estimate/Cycle/Module/Work Item Type quando a feature está DESABILITADA
    - Label inexistente com usuário NÃO-admin
 
+**Prévia (tabela)**
+
+5. Cada linha válida é renderizada como um work item real: pílula de estado com
+   cor, avatares de responsáveis, labels coloridas, datas, estimativa, ciclo,
+   módulos e tipo; ícone de descrição quando a descrição está preenchida.
+6. Abas **Todas / Válidas / Com erro** filtram as linhas e os contadores por aba
+   batem com os totais.
+7. Busca por nome filtra as linhas da tabela.
+8. Linhas inválidas aparecem na tabela (abas Todas / Com erro) com o valor
+   digitado e o motivo do erro; o campo que falhou vem destacado.
+9. Colunas **#** e **Nome** ficam fixas (sticky) e as demais rolam na horizontal.
+10. Colunas Estimativa / Ciclo / Módulos / Tipo só aparecem quando a respectiva
+    feature está habilitada no projeto.
+11. Paginação a 25 linhas por página, com navegação anterior/próxima.
+12. Arquivo com > 200 linhas válidas → banner "primeiras 200 de N" e a tabela
+    mostra só a amostra; ainda assim TODAS as válidas são importadas no commit.
+
 **Commit (gravação)**
 
-5. Import feliz → issues criadas com sequence_id contínuo (PROJ-N sem furos),
-   responsáveis, labels, cycle e módulos vinculados.
-6. Toggle "pular linhas inválidas": válidas criadas, inválidas ignoradas com
-   relatório de erros; e o modo "bloquear até limpo".
-7. Auto-criação de label: ADMIN cria label nova automaticamente; NÃO-admin
-   recebe erro na linha.
-8. Dedupe por External ID → reimportar o mesmo arquivo NÃO duplica.
+13. Import feliz → issues criadas com sequence_id contínuo (PROJ-N sem furos),
+    responsáveis, labels, cycle e módulos vinculados.
+14. Toggle "pular linhas inválidas": válidas criadas, inválidas ignoradas com
+    relatório de erros; e o modo "bloquear até limpo".
+15. Auto-criação de label: ADMIN cria label nova automaticamente; NÃO-admin
+    recebe erro na linha.
+16. Dedupe por External ID → reimportar o mesmo arquivo NÃO duplica.
 
 **Assíncrono & limites**
 
-9. Arquivo > 200 linhas → import enfileirado (202), página de histórico em
-   Settings → Imports atualiza o status até "completed".
-10. > 5000 linhas ou > 5 MB → rejeitado com mensagem clara (413/400).
+17. Arquivo > 200 linhas → import enfileirado (202), página de histórico em
+    Settings → Imports atualiza o status até "completed".
+18. > 5000 linhas ou > 5 MB → rejeitado com mensagem clara (413/400).
 
 **Permissão & pontos de entrada**
 
-11. Não-membro / role viewer → 403 (não consegue importar).
-12. Botão "Import" aparece no header de work items e também nas listas de
+19. Não-membro / role viewer → 403 (não consegue importar).
+20. Botão "Import" aparece no header de work items e também nas listas de
     cycle, module e view; pré-seleciona e trava o projeto atual.
 
 **Descrição** (ver ticket relacionado): HTML é sanitizado e renderizado;
