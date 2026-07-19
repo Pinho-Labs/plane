@@ -132,6 +132,28 @@
           "type": "Тип",
           "new_label": "нова"
         },
+        "errors": {
+          "file_empty": "Файл CSV порожній.",
+          "name_column_missing": "Відсутній обов’язковий стовпець «Name».",
+          "max_rows": "CSV перевищує максимум у {max} рядків.",
+          "name_required": "Ім’я обов’язкове.",
+          "name_too_long": "Ім’я перевищує {max} символів.",
+          "priority_invalid": "Недопустимий пріоритет «{value}». Використайте одне з: {allowed}.",
+          "state_not_found": "Статус «{value}» не знайдено в цьому проєкті.",
+          "date_invalid": "Недопустима дата «{value}». Використайте YYYY-MM-DD.",
+          "target_before_start": "Цільова дата не може бути раніше дати початку.",
+          "assignee_not_member": "«{value}» не є активним учасником цього проєкту.",
+          "label_missing_permission": "Мітка «{value}» не існує, і ви не маєте дозволу її створити.",
+          "estimate_disabled": "Оцінки не ввімкнені для цього проєкту.",
+          "estimate_not_found": "Оцінку «{value}» не знайдено.",
+          "parent_not_found": "Батьківський елемент «{value}» не знайдено в цьому проєкті.",
+          "type_disabled": "Типи робочих елементів не ввімкнені для цього проєкту.",
+          "type_not_found": "Тип робочого елемента «{value}» не знайдено.",
+          "cycle_disabled": "Цикли не ввімкнені для цього проєкту.",
+          "cycle_not_found": "Цикл «{value}» не знайдено в цьому проєкті.",
+          "module_disabled": "Модулі не ввімкнені для цього проєкту.",
+          "module_not_found": "Модуль «{value}» не знайдено в цьому проєкті."
+        },
         "toasts": {
           "success": {
             "title": "Імпорт завершено",

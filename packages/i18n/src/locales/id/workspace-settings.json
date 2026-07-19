@@ -132,6 +132,28 @@
           "type": "Tipe",
           "new_label": "baru"
         },
+        "errors": {
+          "file_empty": "File CSV kosong.",
+          "name_column_missing": "Kolom “Name” yang wajib tidak ada.",
+          "max_rows": "CSV melebihi maksimum {max} baris.",
+          "name_required": "Nama wajib diisi.",
+          "name_too_long": "Nama melebihi {max} karakter.",
+          "priority_invalid": "Prioritas “{value}” tidak valid. Gunakan salah satu: {allowed}.",
+          "state_not_found": "Status “{value}” tidak ditemukan di proyek ini.",
+          "date_invalid": "Tanggal “{value}” tidak valid. Gunakan YYYY-MM-DD.",
+          "target_before_start": "Tanggal target tidak boleh sebelum tanggal mulai.",
+          "assignee_not_member": "“{value}” bukan anggota aktif proyek ini.",
+          "label_missing_permission": "Label “{value}” tidak ada dan Anda tidak memiliki izin untuk membuatnya.",
+          "estimate_disabled": "Estimasi tidak diaktifkan untuk proyek ini.",
+          "estimate_not_found": "Estimasi “{value}” tidak ditemukan.",
+          "parent_not_found": "Item induk “{value}” tidak ditemukan di proyek ini.",
+          "type_disabled": "Tipe item kerja tidak diaktifkan untuk proyek ini.",
+          "type_not_found": "Tipe item kerja “{value}” tidak ditemukan.",
+          "cycle_disabled": "Siklus tidak diaktifkan untuk proyek ini.",
+          "cycle_not_found": "Siklus “{value}” tidak ditemukan di proyek ini.",
+          "module_disabled": "Modul tidak diaktifkan untuk proyek ini.",
+          "module_not_found": "Modul “{value}” tidak ditemukan di proyek ini."
+        },
         "toasts": {
           "success": {
             "title": "Impor selesai",

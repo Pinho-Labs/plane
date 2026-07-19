@@ -55,7 +55,31 @@ describe("ImportPreviewStep", () => {
   it("shows invalid rows with their error reason", () => {
     render(<ImportPreviewStep validation={buildValidation()} skipInvalid={false} onToggleSkip={vi.fn()} />);
     expect(screen.getByText("Publish notes")).toBeInTheDocument();
+    // No `code` on this fixture -> falls back to the English message.
     expect(screen.getByText("State 'Nirvana' not found")).toBeInTheDocument();
+  });
+
+  it("localizes an error message via its code when present", () => {
+    render(
+      <ImportPreviewStep
+        validation={buildValidation({
+          invalid_sample: [
+            {
+              row: 4,
+              name: "Publish notes",
+              values: { state: "Nirvana" },
+              errors: [{ field: "State", message: "fallback", code: "state_not_found", params: { value: "Nirvana" } }],
+            },
+          ],
+        })}
+        skipInvalid={false}
+        onToggleSkip={vi.fn()}
+      />
+    );
+    // The i18n stub echoes the key, so seeing the key (not "fallback") proves
+    // the code drove an i18n lookup.
+    expect(screen.getByText("workspace_settings.settings.imports.errors.state_not_found")).toBeInTheDocument();
+    expect(screen.queryByText("fallback")).not.toBeInTheDocument();
   });
 
   it("filters to only invalid rows on the errors tab", async () => {
@@ -92,6 +116,24 @@ describe("ImportPreviewStep", () => {
     expect(screen.getByText("Item 26")).toBeInTheDocument();
     expect(screen.getByText("Item 30")).toBeInTheDocument();
     expect(screen.queryByText("Item 1")).not.toBeInTheDocument();
+  });
+
+  it("surfaces file-level errors (row 0) in a banner", () => {
+    render(
+      <ImportPreviewStep
+        validation={buildValidation({
+          total: 0,
+          valid: 0,
+          invalid: 0,
+          sample: [],
+          invalid_sample: [],
+          errors: [{ row: 0, field: "Name", message: "fallback", code: "name_column_missing" }],
+        })}
+        skipInvalid={false}
+        onToggleSkip={vi.fn()}
+      />
+    );
+    expect(screen.getByText("workspace_settings.settings.imports.errors.name_column_missing")).toBeInTheDocument();
   });
 
   it("hides the skip toggle when every row is valid", () => {

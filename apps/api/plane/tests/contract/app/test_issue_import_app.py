@@ -222,8 +222,10 @@ class TestIssueCSVValidate:
         by_row = {r["row"]: r for r in invalid_sample}
         bad_state_row = next(r for r in invalid_sample if r["values"].get("state") == "Nirvana")
         assert any(e["field"] == "State" for e in bad_state_row["errors"])
+        # Errors carry a stable code + params so the frontend can localize them.
+        assert any(e["code"] == "state_not_found" and e["params"] == {"value": "Nirvana"} for e in bad_state_row["errors"])
         unnamed_row = next(r for r in invalid_sample if not r["name"])
-        assert any(e["field"] == "Name" for e in unnamed_row["errors"])
+        assert any(e["field"] == "Name" and e["code"] == "name_required" for e in unnamed_row["errors"])
         assert set(by_row) == {1, 2}
 
     @pytest.mark.django_db

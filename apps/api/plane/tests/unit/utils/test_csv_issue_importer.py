@@ -255,3 +255,43 @@ class TestBuildPreview:
         assert preview.valid_count == 0
         assert preview.invalid_count == 0
         assert any(e.row == FILE_LEVEL_ROW for e in preview.errors)
+
+
+@pytest.mark.unit
+class TestErrorCodes:
+    """Lock the stable error `code` for every failure so the frontend i18n keys
+    (workspace_settings.settings.imports.errors.<code>) can't silently drift."""
+
+    @pytest.mark.parametrize(
+        "row,features,expected_code",
+        [
+            ({"name": ""}, None, "name_required"),
+            ({"name": "N" * 256}, None, "name_too_long"),
+            ({"name": "A", "priority": "sky-high"}, None, "priority_invalid"),
+            ({"name": "A", "state": "Nirvana"}, None, "state_not_found"),
+            ({"name": "A", "start_date": "20/07/2026"}, None, "date_invalid"),
+            ({"name": "A", "start_date": "2026-07-10", "target_date": "2026-07-01"}, None, "target_before_start"),
+            ({"name": "A", "assignees": "ghost@acme.com"}, None, "assignee_not_member"),
+            ({"name": "A", "labels": "unknown-label"}, None, "label_missing_permission"),
+            ({"name": "A", "estimate": "3"}, ProjectFeatures(estimates_enabled=False), "estimate_disabled"),
+            ({"name": "A", "estimate": "99"}, None, "estimate_not_found"),
+            ({"name": "A", "parent": "NOPE-9"}, None, "parent_not_found"),
+            ({"name": "A", "type": "Bug"}, ProjectFeatures(work_item_types_enabled=False), "type_disabled"),
+            ({"name": "A", "type": "Ghost"}, None, "type_not_found"),
+            ({"name": "A", "cycle": "Sprint 5"}, ProjectFeatures(cycle_view=False), "cycle_disabled"),
+            ({"name": "A", "cycle": "Ghost"}, None, "cycle_not_found"),
+            ({"name": "A", "modules": "Auth"}, ProjectFeatures(module_view=False), "module_disabled"),
+            ({"name": "A", "modules": "Ghost"}, None, "module_not_found"),
+        ],
+    )
+    def test_resolve_row_error_codes(self, row, features, expected_code):
+        ctx = _ctx(features=features) if features is not None else _ctx()
+        _, errors = resolve_row(1, row, ctx)
+        assert expected_code in {e.code for e in errors}
+
+    def test_file_level_error_codes(self):
+        assert parse_rows("")[1][0].code == "file_empty"
+        assert parse_rows(_csv(["Priority"], ["high"]))[1][0].code == "name_column_missing"
+        over_cap = _csv(["Name"], *[[f"row {i}"] for i in range(MAX_ROWS + 1)])
+        _, errors = parse_rows(over_cap)
+        assert any(e.code == "max_rows" and e.params == {"max": MAX_ROWS} for e in errors)

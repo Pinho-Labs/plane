@@ -45,11 +45,17 @@ _DATE_FORMAT = "%Y-%m-%d"
 
 @dataclass(frozen=True)
 class RowError:
-    """A single validation problem, addressable by the user."""
+    """A single validation problem, addressable by the user.
+
+    `message` is an English fallback; `code` + `params` let the frontend render
+    the message in the user's own language (the backend has no UI locale).
+    """
 
     row: int  # 1-based data-row number (header excluded); 0 == file-level
     field: str
     message: str
+    code: str = ""
+    params: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -143,7 +149,7 @@ def parse_rows(csv_text):
     try:
         raw_headers = next(reader)
     except StopIteration:
-        return [], [RowError(FILE_LEVEL_ROW, "file", "The CSV file is empty.")]
+        return [], [RowError(FILE_LEVEL_ROW, "file", "The CSV file is empty.", code="file_empty")]
 
     # Map each column index to an internal key (or None to ignore it).
     index_to_key = [normalize_header(h) for h in raw_headers]
@@ -152,7 +158,7 @@ def parse_rows(csv_text):
     if "name" not in present_keys:
         # Without a Name column nothing is importable; skip per-row parsing so
         # the user gets one clear file-level error instead of noise on every row.
-        return [], [RowError(FILE_LEVEL_ROW, "Name", "Required 'Name' column is missing.")]
+        return [], [RowError(FILE_LEVEL_ROW, "Name", "Required 'Name' column is missing.", code="name_column_missing")]
 
     rows = []
     for line_number, values in enumerate(reader, start=1):
@@ -162,6 +168,8 @@ def parse_rows(csv_text):
                     FILE_LEVEL_ROW,
                     "file",
                     f"CSV exceeds the maximum of {MAX_ROWS} rows.",
+                    code="max_rows",
+                    params={"max": MAX_ROWS},
                 )
             )
             break
@@ -188,9 +196,11 @@ def resolve_row(row_number, row, ctx):
 
     name = (row.get("name") or "").strip()
     if not name:
-        errors.append(RowError(row_number, "Name", "Name is required."))
+        errors.append(RowError(row_number, "Name", "Name is required.", code="name_required"))
     elif len(name) > 255:
-        errors.append(RowError(row_number, "Name", "Name exceeds 255 characters."))
+        errors.append(
+            RowError(row_number, "Name", "Name exceeds 255 characters.", code="name_too_long", params={"max": 255})
+        )
     else:
         payload["name"] = name
 
@@ -202,11 +212,14 @@ def resolve_row(row_number, row, ctx):
     elif raw_priority in VALID_PRIORITIES:
         payload["priority"] = raw_priority
     else:
+        allowed = ", ".join(sorted(VALID_PRIORITIES))
         errors.append(
             RowError(
                 row_number,
                 "Priority",
-                f"Invalid priority '{row.get('priority')}'. Use one of: {', '.join(sorted(VALID_PRIORITIES))}.",
+                f"Invalid priority '{row.get('priority')}'. Use one of: {allowed}.",
+                code="priority_invalid",
+                params={"value": row.get("priority"), "allowed": allowed},
             )
         )
 
@@ -216,7 +229,15 @@ def resolve_row(row_number, row, ctx):
         if state_id:
             payload["state_id"] = state_id
         else:
-            errors.append(RowError(row_number, "State", f"State '{raw_state}' not found in this project."))
+            errors.append(
+                RowError(
+                    row_number,
+                    "State",
+                    f"State '{raw_state}' not found in this project.",
+                    code="state_not_found",
+                    params={"value": raw_state},
+                )
+            )
     elif ctx.default_state_id:
         payload["state_id"] = ctx.default_state_id
     # Left unset when blank: Issue.save() fills the project's default state.
@@ -228,7 +249,14 @@ def resolve_row(row_number, row, ctx):
     if target_date is not None:
         payload["target_date"] = target_date
     if start_date and target_date and start_date > target_date:
-        errors.append(RowError(row_number, "Target Date", "Target Date cannot be before Start Date."))
+        errors.append(
+            RowError(
+                row_number,
+                "Target Date",
+                "Target Date cannot be before Start Date.",
+                code="target_before_start",
+            )
+        )
 
     assignee_ids = []
     for email in _split_multi(row.get("assignees")):
@@ -237,7 +265,13 @@ def resolve_row(row_number, row, ctx):
             assignee_ids.append(user_id)
         else:
             errors.append(
-                RowError(row_number, "Assignees", f"'{email}' is not an active member of this project.")
+                RowError(
+                    row_number,
+                    "Assignees",
+                    f"'{email}' is not an active member of this project.",
+                    code="assignee_not_member",
+                    params={"value": email},
+                )
             )
     if assignee_ids:
         payload["assignee_ids"] = assignee_ids
@@ -257,6 +291,8 @@ def resolve_row(row_number, row, ctx):
                     row_number,
                     "Labels",
                     f"Label '{label_name}' does not exist and you lack permission to create it.",
+                    code="label_missing_permission",
+                    params={"value": label_name},
                 )
             )
     if label_ids:
@@ -265,13 +301,25 @@ def resolve_row(row_number, row, ctx):
     raw_estimate = (row.get("estimate") or "").strip()
     if raw_estimate:
         if not ctx.features.estimates_enabled:
-            errors.append(RowError(row_number, "Estimate", "Estimates are not enabled for this project."))
+            errors.append(
+                RowError(
+                    row_number, "Estimate", "Estimates are not enabled for this project.", code="estimate_disabled"
+                )
+            )
         else:
             estimate_id = ctx.estimate_by_value.get(raw_estimate.lower())
             if estimate_id:
                 payload["estimate_point"] = estimate_id
             else:
-                errors.append(RowError(row_number, "Estimate", f"Estimate '{raw_estimate}' not found."))
+                errors.append(
+                    RowError(
+                        row_number,
+                        "Estimate",
+                        f"Estimate '{raw_estimate}' not found.",
+                        code="estimate_not_found",
+                        params={"value": raw_estimate},
+                    )
+                )
 
     raw_parent = (row.get("parent") or "").strip()
     if raw_parent:
@@ -279,42 +327,85 @@ def resolve_row(row_number, row, ctx):
         if parent_id:
             payload["parent_id"] = parent_id
         else:
-            errors.append(RowError(row_number, "Parent", f"Parent '{raw_parent}' not found in this project."))
+            errors.append(
+                RowError(
+                    row_number,
+                    "Parent",
+                    f"Parent '{raw_parent}' not found in this project.",
+                    code="parent_not_found",
+                    params={"value": raw_parent},
+                )
+            )
 
     raw_type = (row.get("type") or "").strip()
     if raw_type:
         if not ctx.features.work_item_types_enabled:
-            errors.append(RowError(row_number, "Work Item Type", "Work item types are not enabled for this project."))
+            errors.append(
+                RowError(
+                    row_number,
+                    "Work Item Type",
+                    "Work item types are not enabled for this project.",
+                    code="type_disabled",
+                )
+            )
         else:
             type_id = ctx.type_by_name.get(raw_type.lower())
             if type_id:
                 # Model field is `type`; IssueCreateSerializer exposes it via fields="__all__".
                 payload["type"] = type_id
             else:
-                errors.append(RowError(row_number, "Work Item Type", f"Type '{raw_type}' not found."))
+                errors.append(
+                    RowError(
+                        row_number,
+                        "Work Item Type",
+                        f"Type '{raw_type}' not found.",
+                        code="type_not_found",
+                        params={"value": raw_type},
+                    )
+                )
 
     cycle_id = None
     raw_cycle = (row.get("cycle") or "").strip()
     if raw_cycle:
         if not ctx.features.cycle_view:
-            errors.append(RowError(row_number, "Cycle", "Cycles are not enabled for this project."))
+            errors.append(
+                RowError(row_number, "Cycle", "Cycles are not enabled for this project.", code="cycle_disabled")
+            )
         else:
             cycle_id = ctx.cycle_by_name.get(raw_cycle.lower())
             if not cycle_id:
-                errors.append(RowError(row_number, "Cycle", f"Cycle '{raw_cycle}' not found in this project."))
+                errors.append(
+                    RowError(
+                        row_number,
+                        "Cycle",
+                        f"Cycle '{raw_cycle}' not found in this project.",
+                        code="cycle_not_found",
+                        params={"value": raw_cycle},
+                    )
+                )
 
     module_ids = []
     raw_modules = _split_multi(row.get("modules"))
     if raw_modules:
         if not ctx.features.module_view:
-            errors.append(RowError(row_number, "Modules", "Modules are not enabled for this project."))
+            errors.append(
+                RowError(row_number, "Modules", "Modules are not enabled for this project.", code="module_disabled")
+            )
         else:
             for module_name in raw_modules:
                 module_id = ctx.module_by_name.get(module_name.lower())
                 if module_id:
                     module_ids.append(module_id)
                 else:
-                    errors.append(RowError(row_number, "Modules", f"Module '{module_name}' not found in this project."))
+                    errors.append(
+                        RowError(
+                            row_number,
+                            "Modules",
+                            f"Module '{module_name}' not found in this project.",
+                            code="module_not_found",
+                            params={"value": module_name},
+                        )
+                    )
 
     external_id = (row.get("external_id") or "").strip()
     if external_id:
@@ -345,7 +436,15 @@ def _parse_date(value, row_number, field_name, errors):
     try:
         return datetime.strptime(raw, _DATE_FORMAT).date()
     except ValueError:
-        errors.append(RowError(row_number, field_name, f"Invalid date '{raw}'. Use YYYY-MM-DD."))
+        errors.append(
+            RowError(
+                row_number,
+                field_name,
+                f"Invalid date '{raw}'. Use YYYY-MM-DD.",
+                code="date_invalid",
+                params={"value": raw},
+            )
+        )
         return None
 
 

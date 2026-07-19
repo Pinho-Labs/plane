@@ -132,6 +132,28 @@
           "type": "Type",
           "new_label": "new"
         },
+        "errors": {
+          "file_empty": "The CSV file is empty.",
+          "name_column_missing": "The required “Name” column is missing.",
+          "max_rows": "The CSV exceeds the maximum of {max} rows.",
+          "name_required": "Name is required.",
+          "name_too_long": "Name exceeds {max} characters.",
+          "priority_invalid": "Invalid priority “{value}”. Use one of: {allowed}.",
+          "state_not_found": "State “{value}” not found in this project.",
+          "date_invalid": "Invalid date “{value}”. Use YYYY-MM-DD.",
+          "target_before_start": "Target Date cannot be before Start Date.",
+          "assignee_not_member": "“{value}” is not an active member of this project.",
+          "label_missing_permission": "Label “{value}” does not exist and you lack permission to create it.",
+          "estimate_disabled": "Estimates are not enabled for this project.",
+          "estimate_not_found": "Estimate “{value}” not found.",
+          "parent_not_found": "Parent “{value}” not found in this project.",
+          "type_disabled": "Work item types are not enabled for this project.",
+          "type_not_found": "Work item type “{value}” not found.",
+          "cycle_disabled": "Cycles are not enabled for this project.",
+          "cycle_not_found": "Cycle “{value}” not found in this project.",
+          "module_disabled": "Modules are not enabled for this project.",
+          "module_not_found": "Module “{value}” not found in this project."
+        },
         "toasts": {
           "success": {
             "title": "Import complete",

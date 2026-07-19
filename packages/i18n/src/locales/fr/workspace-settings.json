@@ -132,6 +132,28 @@
           "type": "Type",
           "new_label": "nouveau"
         },
+        "errors": {
+          "file_empty": "Le fichier CSV est vide.",
+          "name_column_missing": "La colonne « Name » requise est manquante.",
+          "max_rows": "Le CSV dépasse le maximum de {max} lignes.",
+          "name_required": "Le nom est obligatoire.",
+          "name_too_long": "Le nom dépasse {max} caractères.",
+          "priority_invalid": "Priorité « {value} » non valide. Utilisez l’une des valeurs suivantes : {allowed}.",
+          "state_not_found": "État « {value} » introuvable dans ce projet.",
+          "date_invalid": "Date « {value} » non valide. Utilisez YYYY-MM-DD.",
+          "target_before_start": "La date cible ne peut pas être antérieure à la date de début.",
+          "assignee_not_member": "« {value} » n’est pas un membre actif de ce projet.",
+          "label_missing_permission": "L’étiquette « {value} » n’existe pas et vous n’avez pas la permission de la créer.",
+          "estimate_disabled": "Les estimations ne sont pas activées pour ce projet.",
+          "estimate_not_found": "Estimation « {value} » introuvable.",
+          "parent_not_found": "Parent « {value} » introuvable dans ce projet.",
+          "type_disabled": "Les types d’élément de travail ne sont pas activés pour ce projet.",
+          "type_not_found": "Type d’élément de travail « {value} » introuvable.",
+          "cycle_disabled": "Les Cycles ne sont pas activés pour ce projet.",
+          "cycle_not_found": "Cycle « {value} » introuvable dans ce projet.",
+          "module_disabled": "Les Modules ne sont pas activés pour ce projet.",
+          "module_not_found": "Module « {value} » introuvable dans ce projet."
+        },
         "toasts": {
           "success": {
             "title": "Importation terminée",

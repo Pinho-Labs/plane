@@ -132,6 +132,28 @@
           "type": "Typ",
           "new_label": "nový"
         },
+        "errors": {
+          "file_empty": "Súbor CSV je prázdny.",
+          "name_column_missing": "Chýba povinný stĺpec „Name“.",
+          "max_rows": "CSV prekračuje maximum {max} riadkov.",
+          "name_required": "Názov je povinný.",
+          "name_too_long": "Názov prekračuje {max} znakov.",
+          "priority_invalid": "Neplatná priorita „{value}“. Použite jednu z hodnôt: {allowed}.",
+          "state_not_found": "Stav „{value}“ sa v tomto projekte nenašiel.",
+          "date_invalid": "Neplatný dátum „{value}“. Použite YYYY-MM-DD.",
+          "target_before_start": "Cieľový dátum nemôže byť skôr ako počiatočný dátum.",
+          "assignee_not_member": "„{value}“ nie je aktívnym členom tohto projektu.",
+          "label_missing_permission": "Štítok „{value}“ neexistuje a nemáte oprávnenie ho vytvoriť.",
+          "estimate_disabled": "Odhady nie sú pre tento projekt povolené.",
+          "estimate_not_found": "Odhad „{value}“ sa nenašiel.",
+          "parent_not_found": "Nadradená položka „{value}“ sa v tomto projekte nenašla.",
+          "type_disabled": "Typy pracovných položiek nie sú pre tento projekt povolené.",
+          "type_not_found": "Typ pracovnej položky „{value}“ sa nenašiel.",
+          "cycle_disabled": "Cykly nie sú pre tento projekt povolené.",
+          "cycle_not_found": "Cyklus „{value}“ sa v tomto projekte nenašiel.",
+          "module_disabled": "Moduly nie sú pre tento projekt povolené.",
+          "module_not_found": "Modul „{value}“ sa v tomto projekte nenašiel."
+        },
         "toasts": {
           "success": {
             "title": "Import dokončený",

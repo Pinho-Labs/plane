@@ -132,6 +132,28 @@
           "type": "유형",
           "new_label": "신규"
         },
+        "errors": {
+          "file_empty": "CSV 파일이 비어 있습니다.",
+          "name_column_missing": "필수 “Name” 열이 없습니다.",
+          "max_rows": "CSV가 최대 {max}개 행을 초과합니다.",
+          "name_required": "이름은 필수입니다.",
+          "name_too_long": "이름이 {max}자를 초과합니다.",
+          "priority_invalid": "잘못된 우선순위 “{value}”입니다. 다음 중 하나를 사용하세요: {allowed}.",
+          "state_not_found": "이 프로젝트에서 상태 “{value}”을(를) 찾을 수 없습니다.",
+          "date_invalid": "잘못된 날짜 “{value}”입니다. YYYY-MM-DD를 사용하세요.",
+          "target_before_start": "목표 날짜는 시작 날짜보다 앞설 수 없습니다.",
+          "assignee_not_member": "“{value}”은(는) 이 프로젝트의 활성 구성원이 아닙니다.",
+          "label_missing_permission": "레이블 “{value}”이(가) 없으며 만들 권한이 없습니다.",
+          "estimate_disabled": "이 프로젝트에는 추정치가 활성화되어 있지 않습니다.",
+          "estimate_not_found": "추정치 “{value}”을(를) 찾을 수 없습니다.",
+          "parent_not_found": "이 프로젝트에서 상위 항목 “{value}”을(를) 찾을 수 없습니다.",
+          "type_disabled": "이 프로젝트에는 작업 항목 유형이 활성화되어 있지 않습니다.",
+          "type_not_found": "작업 항목 유형 “{value}”을(를) 찾을 수 없습니다.",
+          "cycle_disabled": "이 프로젝트에는 사이클이 활성화되어 있지 않습니다.",
+          "cycle_not_found": "이 프로젝트에서 사이클 “{value}”을(를) 찾을 수 없습니다.",
+          "module_disabled": "이 프로젝트에는 모듈이 활성화되어 있지 않습니다.",
+          "module_not_found": "이 프로젝트에서 모듈 “{value}”을(를) 찾을 수 없습니다."
+        },
         "toasts": {
           "success": {
             "title": "가져오기 완료",

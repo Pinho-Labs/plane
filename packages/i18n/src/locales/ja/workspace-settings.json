@@ -132,6 +132,28 @@
           "type": "種類",
           "new_label": "新規"
         },
+        "errors": {
+          "file_empty": "CSVファイルが空です。",
+          "name_column_missing": "必須の「Name」列がありません。",
+          "max_rows": "CSVが最大{max}行を超えています。",
+          "name_required": "名前は必須です。",
+          "name_too_long": "名前が{max}文字を超えています。",
+          "priority_invalid": "優先度「{value}」は無効です。次のいずれかを使用してください: {allowed}。",
+          "state_not_found": "ステータス「{value}」がこのプロジェクトに見つかりません。",
+          "date_invalid": "日付「{value}」は無効です。YYYY-MM-DD形式を使用してください。",
+          "target_before_start": "目標日は開始日より前にできません。",
+          "assignee_not_member": "「{value}」はこのプロジェクトのアクティブなメンバーではありません。",
+          "label_missing_permission": "ラベル「{value}」は存在せず、作成する権限がありません。",
+          "estimate_disabled": "このプロジェクトでは見積もりが有効になっていません。",
+          "estimate_not_found": "見積もり「{value}」が見つかりません。",
+          "parent_not_found": "親「{value}」がこのプロジェクトに見つかりません。",
+          "type_disabled": "このプロジェクトでは作業項目タイプが有効になっていません。",
+          "type_not_found": "作業項目タイプ「{value}」が見つかりません。",
+          "cycle_disabled": "このプロジェクトではサイクルが有効になっていません。",
+          "cycle_not_found": "サイクル「{value}」がこのプロジェクトに見つかりません。",
+          "module_disabled": "このプロジェクトではモジュールが有効になっていません。",
+          "module_not_found": "モジュール「{value}」がこのプロジェクトに見つかりません。"
+        },
         "toasts": {
           "success": {
             "title": "インポートが完了しました",

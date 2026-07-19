@@ -132,6 +132,28 @@
           "type": "Typ",
           "new_label": "nowy"
         },
+        "errors": {
+          "file_empty": "Plik CSV jest pusty.",
+          "name_column_missing": "Brakuje wymaganej kolumny „Name”.",
+          "max_rows": "Plik CSV przekracza maksymalną liczbę {max} wierszy.",
+          "name_required": "Nazwa jest wymagana.",
+          "name_too_long": "Nazwa przekracza {max} znaków.",
+          "priority_invalid": "Nieprawidłowy priorytet „{value}”. Użyj jednej z wartości: {allowed}.",
+          "state_not_found": "Nie znaleziono statusu „{value}” w tym projekcie.",
+          "date_invalid": "Nieprawidłowa data „{value}”. Użyj formatu YYYY-MM-DD.",
+          "target_before_start": "Data docelowa nie może być wcześniejsza niż data rozpoczęcia.",
+          "assignee_not_member": "„{value}” nie jest aktywnym członkiem tego projektu.",
+          "label_missing_permission": "Etykieta „{value}” nie istnieje, a Ty nie masz uprawnień do jej utworzenia.",
+          "estimate_disabled": "Szacunki nie są włączone dla tego projektu.",
+          "estimate_not_found": "Nie znaleziono szacunku „{value}”.",
+          "parent_not_found": "Nie znaleziono elementu nadrzędnego „{value}” w tym projekcie.",
+          "type_disabled": "Typy elementów roboczych nie są włączone dla tego projektu.",
+          "type_not_found": "Nie znaleziono typu elementu roboczego „{value}”.",
+          "cycle_disabled": "Cykle nie są włączone dla tego projektu.",
+          "cycle_not_found": "Nie znaleziono Cyklu „{value}” w tym projekcie.",
+          "module_disabled": "Moduły nie są włączone dla tego projektu.",
+          "module_not_found": "Nie znaleziono Modułu „{value}” w tym projekcie."
+        },
         "toasts": {
           "success": {
             "title": "Import zakończony",

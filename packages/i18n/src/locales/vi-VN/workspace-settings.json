@@ -132,6 +132,28 @@
           "type": "Loại",
           "new_label": "mới"
         },
+        "errors": {
+          "file_empty": "Tệp CSV trống.",
+          "name_column_missing": "Thiếu cột “Name” bắt buộc.",
+          "max_rows": "CSV vượt quá tối đa {max} dòng.",
+          "name_required": "Tên là bắt buộc.",
+          "name_too_long": "Tên vượt quá {max} ký tự.",
+          "priority_invalid": "Mức độ ưu tiên “{value}” không hợp lệ. Hãy dùng một trong: {allowed}.",
+          "state_not_found": "Không tìm thấy trạng thái “{value}” trong dự án này.",
+          "date_invalid": "Ngày “{value}” không hợp lệ. Hãy dùng YYYY-MM-DD.",
+          "target_before_start": "Ngày mục tiêu không thể trước ngày bắt đầu.",
+          "assignee_not_member": "“{value}” không phải là thành viên đang hoạt động của dự án này.",
+          "label_missing_permission": "Nhãn “{value}” không tồn tại và bạn không có quyền tạo nhãn này.",
+          "estimate_disabled": "Ước tính chưa được bật cho dự án này.",
+          "estimate_not_found": "Không tìm thấy ước tính “{value}”.",
+          "parent_not_found": "Không tìm thấy hạng mục cha “{value}” trong dự án này.",
+          "type_disabled": "Loại hạng mục công việc chưa được bật cho dự án này.",
+          "type_not_found": "Không tìm thấy loại hạng mục công việc “{value}”.",
+          "cycle_disabled": "Chu kỳ chưa được bật cho dự án này.",
+          "cycle_not_found": "Không tìm thấy Chu kỳ “{value}” trong dự án này.",
+          "module_disabled": "Mô-đun chưa được bật cho dự án này.",
+          "module_not_found": "Không tìm thấy Mô-đun “{value}” trong dự án này."
+        },
         "toasts": {
           "success": {
             "title": "Nhập hoàn tất",

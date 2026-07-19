@@ -10,8 +10,13 @@ import { APIService } from "@/services/api.service";
 export type TCsvImportError = {
   row: number;
   field: string;
+  // English fallback; `code` + `params` let the frontend localize the message.
   message: string;
+  code?: string;
+  params?: Record<string, string | number>;
 };
+
+export type TCsvRowError = Pick<TCsvImportError, "field" | "message" | "code" | "params">;
 
 export type TCsvPreviewAssignee = { id: string; display_name: string; avatar_url: string | null };
 export type TCsvPreviewLabel = { name: string; color: string | null; is_new?: boolean };
@@ -39,7 +44,7 @@ export type TCsvInvalidRow = {
   row: number;
   name: string;
   values: Record<string, string>;
-  errors: { field: string; message: string }[];
+  errors: TCsvRowError[];
 };
 
 export type TCsvImportValidation = {

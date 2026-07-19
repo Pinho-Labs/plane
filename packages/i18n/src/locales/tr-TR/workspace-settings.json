@@ -132,6 +132,28 @@
           "type": "Tür",
           "new_label": "yeni"
         },
+        "errors": {
+          "file_empty": "CSV dosyası boş.",
+          "name_column_missing": "Gerekli “Name” sütunu eksik.",
+          "max_rows": "CSV, en fazla {max} satır sınırını aşıyor.",
+          "name_required": "Ad gereklidir.",
+          "name_too_long": "Ad {max} karakteri aşıyor.",
+          "priority_invalid": "Geçersiz öncelik “{value}”. Şunlardan birini kullanın: {allowed}.",
+          "state_not_found": "“{value}” durumu bu projede bulunamadı.",
+          "date_invalid": "Geçersiz tarih “{value}”. YYYY-MM-DD kullanın.",
+          "target_before_start": "Hedef tarih, başlangıç tarihinden önce olamaz.",
+          "assignee_not_member": "“{value}” bu projenin aktif bir üyesi değil.",
+          "label_missing_permission": "“{value}” etiketi yok ve bunu oluşturma izniniz yok.",
+          "estimate_disabled": "Tahminler bu proje için etkin değil.",
+          "estimate_not_found": "“{value}” tahmini bulunamadı.",
+          "parent_not_found": "“{value}” üst öğesi bu projede bulunamadı.",
+          "type_disabled": "İş öğesi türleri bu proje için etkin değil.",
+          "type_not_found": "“{value}” iş öğesi türü bulunamadı.",
+          "cycle_disabled": "Döngüler bu proje için etkin değil.",
+          "cycle_not_found": "“{value}” Döngüsü bu projede bulunamadı.",
+          "module_disabled": "Modüller bu proje için etkin değil.",
+          "module_not_found": "“{value}” Modülü bu projede bulunamadı."
+        },
         "toasts": {
           "success": {
             "title": "İçe aktarma tamamlandı",

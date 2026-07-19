@@ -84,8 +84,8 @@ class TestSerializeInvalidRows:
     def test_keeps_raw_cells_and_row_errors(self):
         rows = [(4, {"name": "", "state": "Nirvana", "priority": ""})]
         errors = [
-            RowError(4, "Name", "Name is required."),
-            RowError(4, "State", "State 'Nirvana' not found in this project."),
+            RowError(4, "Name", "Name is required.", code="name_required"),
+            RowError(4, "State", "State 'Nirvana' not found.", code="state_not_found", params={"value": "Nirvana"}),
             RowError(0, "file", "file-level, must be ignored"),
         ]
 
@@ -97,3 +97,7 @@ class TestSerializeInvalidRows:
         # Blank cells are dropped; only what the user actually typed remains.
         assert out[0]["values"] == {"state": "Nirvana"}
         assert {e["field"] for e in out[0]["errors"]} == {"Name", "State"}
+        # code + params ride along so the frontend can localize the message.
+        state_err = next(e for e in out[0]["errors"] if e["field"] == "State")
+        assert state_err["code"] == "state_not_found"
+        assert state_err["params"] == {"value": "Nirvana"}

@@ -132,6 +132,28 @@
           "type": "Tip",
           "new_label": "nou"
         },
+        "errors": {
+          "file_empty": "Fișierul CSV este gol.",
+          "name_column_missing": "Lipsește coloana obligatorie „Name”.",
+          "max_rows": "CSV depășește maximul de {max} rânduri.",
+          "name_required": "Numele este obligatoriu.",
+          "name_too_long": "Numele depășește {max} de caractere.",
+          "priority_invalid": "Prioritate „{value}” nevalidă. Folosiți una dintre: {allowed}.",
+          "state_not_found": "Starea „{value}” nu a fost găsită în acest proiect.",
+          "date_invalid": "Dată „{value}” nevalidă. Folosiți YYYY-MM-DD.",
+          "target_before_start": "Data țintă nu poate fi înainte de data de început.",
+          "assignee_not_member": "„{value}” nu este un membru activ al acestui proiect.",
+          "label_missing_permission": "Eticheta „{value}” nu există și nu aveți permisiunea de a o crea.",
+          "estimate_disabled": "Estimările nu sunt activate pentru acest proiect.",
+          "estimate_not_found": "Estimarea „{value}” nu a fost găsită.",
+          "parent_not_found": "Elementul părinte „{value}” nu a fost găsit în acest proiect.",
+          "type_disabled": "Tipurile de element de lucru nu sunt activate pentru acest proiect.",
+          "type_not_found": "Tipul de element de lucru „{value}” nu a fost găsit.",
+          "cycle_disabled": "Ciclurile nu sunt activate pentru acest proiect.",
+          "cycle_not_found": "Ciclul „{value}” nu a fost găsit în acest proiect.",
+          "module_disabled": "Modulele nu sunt activate pentru acest proiect.",
+          "module_not_found": "Modulul „{value}” nu a fost găsit în acest proiect."
+        },
         "toasts": {
           "success": {
             "title": "Import finalizat",

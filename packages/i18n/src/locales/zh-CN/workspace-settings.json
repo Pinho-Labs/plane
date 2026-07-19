@@ -132,6 +132,28 @@
           "type": "类型",
           "new_label": "新建"
         },
+        "errors": {
+          "file_empty": "CSV 文件为空。",
+          "name_column_missing": "缺少必填的 “Name” 列。",
+          "max_rows": "CSV 超过了最多 {max} 行的限制。",
+          "name_required": "名称为必填项。",
+          "name_too_long": "名称超过 {max} 个字符。",
+          "priority_invalid": "优先级 “{value}” 无效。请使用以下之一：{allowed}。",
+          "state_not_found": "在此项目中未找到状态 “{value}”。",
+          "date_invalid": "日期 “{value}” 无效。请使用 YYYY-MM-DD。",
+          "target_before_start": "目标日期不能早于开始日期。",
+          "assignee_not_member": "“{value}” 不是此项目的活跃成员。",
+          "label_missing_permission": "标签 “{value}” 不存在，且您没有创建它的权限。",
+          "estimate_disabled": "此项目未启用估算。",
+          "estimate_not_found": "未找到估算 “{value}”。",
+          "parent_not_found": "在此项目中未找到父项 “{value}”。",
+          "type_disabled": "此项目未启用工作项类型。",
+          "type_not_found": "未找到工作项类型 “{value}”。",
+          "cycle_disabled": "此项目未启用周期。",
+          "cycle_not_found": "在此项目中未找到周期 “{value}”。",
+          "module_disabled": "此项目未启用模块。",
+          "module_not_found": "在此项目中未找到模块 “{value}”。"
+        },
         "toasts": {
           "success": {
             "title": "导入完成",

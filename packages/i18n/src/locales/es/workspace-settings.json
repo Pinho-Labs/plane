@@ -132,6 +132,28 @@
           "type": "Tipo",
           "new_label": "nuevo"
         },
+        "errors": {
+          "file_empty": "El archivo CSV está vacío.",
+          "name_column_missing": "Falta la columna « Name » obligatoria.",
+          "max_rows": "El CSV supera el máximo de {max} filas.",
+          "name_required": "El nombre es obligatorio.",
+          "name_too_long": "El nombre supera los {max} caracteres.",
+          "priority_invalid": "Prioridad « {value} » no válida. Use uno de: {allowed}.",
+          "state_not_found": "Estado « {value} » no encontrado en este proyecto.",
+          "date_invalid": "Fecha « {value} » no válida. Use YYYY-MM-DD.",
+          "target_before_start": "La fecha objetivo no puede ser anterior a la fecha de inicio.",
+          "assignee_not_member": "« {value} » no es un miembro activo de este proyecto.",
+          "label_missing_permission": "La etiqueta « {value} » no existe y no tiene permiso para crearla.",
+          "estimate_disabled": "Las estimaciones no están habilitadas para este proyecto.",
+          "estimate_not_found": "Estimación « {value} » no encontrada.",
+          "parent_not_found": "Elemento superior « {value} » no encontrado en este proyecto.",
+          "type_disabled": "Los tipos de elemento de trabajo no están habilitados para este proyecto.",
+          "type_not_found": "Tipo de elemento de trabajo « {value} » no encontrado.",
+          "cycle_disabled": "Los Ciclos no están habilitados para este proyecto.",
+          "cycle_not_found": "Ciclo « {value} » no encontrado en este proyecto.",
+          "module_disabled": "Los Módulos no están habilitados para este proyecto.",
+          "module_not_found": "Módulo « {value} » no encontrado en este proyecto."
+        },
         "toasts": {
           "success": {
             "title": "Importación completada",

@@ -132,6 +132,28 @@
           "type": "類型",
           "new_label": "新增"
         },
+        "errors": {
+          "file_empty": "CSV 檔案為空。",
+          "name_column_missing": "缺少必填的「Name」欄。",
+          "max_rows": "CSV 超過最多 {max} 列的限制。",
+          "name_required": "名稱為必填項。",
+          "name_too_long": "名稱超過 {max} 個字元。",
+          "priority_invalid": "優先順序「{value}」無效。請使用下列其中之一：{allowed}。",
+          "state_not_found": "在此專案中找不到狀態「{value}」。",
+          "date_invalid": "日期「{value}」無效。請使用 YYYY-MM-DD。",
+          "target_before_start": "目標日期不能早於開始日期。",
+          "assignee_not_member": "「{value}」不是此專案的活躍成員。",
+          "label_missing_permission": "標籤「{value}」不存在，且您沒有建立它的權限。",
+          "estimate_disabled": "此專案未啟用估算。",
+          "estimate_not_found": "找不到估算「{value}」。",
+          "parent_not_found": "在此專案中找不到父項「{value}」。",
+          "type_disabled": "此專案未啟用工作項目類型。",
+          "type_not_found": "找不到工作項目類型「{value}」。",
+          "cycle_disabled": "此專案未啟用週期。",
+          "cycle_not_found": "在此專案中找不到週期「{value}」。",
+          "module_disabled": "此專案未啟用模組。",
+          "module_not_found": "在此專案中找不到模組「{value}」。"
+        },
         "toasts": {
           "success": {
             "title": "匯入完成",

@@ -132,6 +132,28 @@
           "type": "Typ",
           "new_label": "neu"
         },
+        "errors": {
+          "file_empty": "Die CSV-Datei ist leer.",
+          "name_column_missing": "Die erforderliche Spalte „Name“ fehlt.",
+          "max_rows": "Die CSV überschreitet das Maximum von {max} Zeilen.",
+          "name_required": "Name ist erforderlich.",
+          "name_too_long": "Der Name überschreitet {max} Zeichen.",
+          "priority_invalid": "Ungültige Priorität „{value}“. Verwenden Sie einen der Werte: {allowed}.",
+          "state_not_found": "Status „{value}“ in diesem Projekt nicht gefunden.",
+          "date_invalid": "Ungültiges Datum „{value}“. Verwenden Sie YYYY-MM-DD.",
+          "target_before_start": "Das Zieldatum darf nicht vor dem Startdatum liegen.",
+          "assignee_not_member": "„{value}“ ist kein aktives Mitglied dieses Projekts.",
+          "label_missing_permission": "Die Bezeichnung „{value}“ existiert nicht und Sie haben keine Berechtigung, sie zu erstellen.",
+          "estimate_disabled": "Schätzungen sind für dieses Projekt nicht aktiviert.",
+          "estimate_not_found": "Schätzung „{value}“ nicht gefunden.",
+          "parent_not_found": "Übergeordnetes Element „{value}“ in diesem Projekt nicht gefunden.",
+          "type_disabled": "Work-Item-Typen sind für dieses Projekt nicht aktiviert.",
+          "type_not_found": "Work-Item-Typ „{value}“ nicht gefunden.",
+          "cycle_disabled": "Zyklen sind für dieses Projekt nicht aktiviert.",
+          "cycle_not_found": "Zyklus „{value}“ in diesem Projekt nicht gefunden.",
+          "module_disabled": "Module sind für dieses Projekt nicht aktiviert.",
+          "module_not_found": "Modul „{value}“ in diesem Projekt nicht gefunden."
+        },
         "toasts": {
           "success": {
             "title": "Import abgeschlossen",

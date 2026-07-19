@@ -12,7 +12,7 @@ import { PriorityIcon } from "@plane/propel/icons";
 import { Avatar, AvatarGroup, Checkbox } from "@plane/ui";
 import { cn, getFileURL, renderFormattedDate } from "@plane/utils";
 // services
-import type { TCsvImportValidation, TCsvInvalidRow, TCsvPreviewRow } from "@/services/project";
+import type { TCsvImportValidation, TCsvInvalidRow, TCsvPreviewRow, TCsvRowError } from "@/services/project";
 
 type Props = {
   validation: TCsvImportValidation;
@@ -56,6 +56,9 @@ export const ImportPreviewStep = function ImportPreviewStep(props: Props) {
   const hasErrors = validation.invalid > 0;
   const invalidSample = validation.invalid_sample ?? [];
   const validSample = validation.sample ?? [];
+  // File-level problems (empty file, missing Name column, row cap) aren't tied
+  // to a data row, so they get a banner instead of a table row.
+  const fileErrors = (validation.errors ?? []).filter((e) => e.row === 0);
 
   const rows = useMemo<TRow[]>(() => {
     const merged: TRow[] = [];
@@ -143,6 +146,17 @@ export const ImportPreviewStep = function ImportPreviewStep(props: Props) {
           </div>
         </div>
       </div>
+
+      {fileErrors.length > 0 && (
+        <div className="flex flex-col gap-1 rounded-md border border-danger-subtle bg-danger-subtle/40 px-3 py-2 text-12 text-danger-primary">
+          {fileErrors.map((e, i) => (
+            <span key={`${e.code}-${i}`} className="flex items-center gap-1.5">
+              <AlertTriangle className="size-3.5 flex-shrink-0" />
+              {translateError(t, e)}
+            </span>
+          ))}
+        </div>
+      )}
 
       {validation.sample_truncated && (
         <div className="rounded-md border border-accent-subtle bg-accent-subtle/40 px-3 py-2 text-12 text-secondary">
@@ -251,6 +265,13 @@ export const ImportPreviewStep = function ImportPreviewStep(props: Props) {
 };
 
 type TFn = ReturnType<typeof useTranslation>["t"];
+
+// Backend validation messages arrive with a stable `code` + `params`; translate
+// them here so they follow the user's locale, falling back to the English text.
+const translateError = (t: TFn, error: TCsvRowError): string =>
+  error.code
+    ? t(`workspace_settings.settings.imports.errors.${error.code}`, { ...(error.params ?? {}), defaultValue: error.message })
+    : error.message;
 
 const TD = "whitespace-nowrap border-b border-subtle px-3 py-2 align-middle";
 
@@ -383,7 +404,7 @@ function InvalidRow({ row, t }: { row: TCsvInvalidRow; t: TFn }) {
         </span>
         <span className="mt-0.5 flex items-start gap-1 whitespace-normal text-11 font-normal text-danger-primary">
           <AlertTriangle className="mt-0.5 size-3 flex-shrink-0" />
-          <span>{row.errors.map((e) => e.message).join(" · ")}</span>
+          <span>{row.errors.map((e) => translateError(t, e)).join(" · ")}</span>
         </span>
       </td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("state", "State")}</td>

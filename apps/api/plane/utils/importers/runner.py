@@ -27,7 +27,9 @@ MAX_STORED_ERRORS = 1000
 
 
 def serialize_errors(errors):
-    return [{"row": e.row, "field": e.field, "message": e.message} for e in errors]
+    return [
+        {"row": e.row, "field": e.field, "message": e.message, "code": e.code, "params": e.params} for e in errors
+    ]
 
 
 def create_rows(user, slug, origin, project, parsed_rows):

@@ -114,7 +114,9 @@ def serialize_invalid_rows(invalid_rows, errors):
     for error in errors:
         if error.row == FILE_LEVEL_ROW:
             continue
-        errors_by_row.setdefault(error.row, []).append({"field": error.field, "message": error.message})
+        errors_by_row.setdefault(error.row, []).append(
+            {"field": error.field, "message": error.message, "code": error.code, "params": error.params}
+        )
 
     serialized = []
     for row_number, raw in invalid_rows:

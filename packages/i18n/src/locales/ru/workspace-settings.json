@@ -132,6 +132,28 @@
           "type": "Тип",
           "new_label": "новая"
         },
+        "errors": {
+          "file_empty": "Файл CSV пуст.",
+          "name_column_missing": "Отсутствует обязательный столбец «Name».",
+          "max_rows": "CSV превышает максимум в {max} строк.",
+          "name_required": "Имя обязательно.",
+          "name_too_long": "Имя превышает {max} символов.",
+          "priority_invalid": "Недопустимый приоритет «{value}». Используйте одно из: {allowed}.",
+          "state_not_found": "Статус «{value}» не найден в этом проекте.",
+          "date_invalid": "Недопустимая дата «{value}». Используйте YYYY-MM-DD.",
+          "target_before_start": "Целевая дата не может быть раньше даты начала.",
+          "assignee_not_member": "«{value}» не является активным участником этого проекта.",
+          "label_missing_permission": "Метка «{value}» не существует, и у вас нет прав на её создание.",
+          "estimate_disabled": "Оценки не включены для этого проекта.",
+          "estimate_not_found": "Оценка «{value}» не найдена.",
+          "parent_not_found": "Родительский элемент «{value}» не найден в этом проекте.",
+          "type_disabled": "Типы рабочих элементов не включены для этого проекта.",
+          "type_not_found": "Тип рабочего элемента «{value}» не найден.",
+          "cycle_disabled": "Циклы не включены для этого проекта.",
+          "cycle_not_found": "Цикл «{value}» не найден в этом проекте.",
+          "module_disabled": "Модули не включены для этого проекта.",
+          "module_not_found": "Модуль «{value}» не найден в этом проекте."
+        },
         "toasts": {
           "success": {
             "title": "Импорт завершён",
