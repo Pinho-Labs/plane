@@ -103,7 +103,13 @@ def build_import_rules_markdown(project, user_id):
 
     add("")
     add("### Description — optional")
-    add("Plain text.")
+    add("Accepts plain text or HTML. A value that starts with `<` is treated as raw HTML;")
+    add("anything else is treated as plain text (so `<`, `>`, and `&` are shown literally)")
+    add("and wrapped in a paragraph. HTML is sanitized server-side to a safe subset of tags")
+    add("(paragraphs, headings, bold/italic, lists, links, code blocks, etc.); disallowed")
+    add("tags and attributes are stripped.")
+    add("Markdown is NOT interpreted — `**bold**` or `# Heading` would appear as literal")
+    add("text. Use HTML tags for formatting, e.g. `<b>bold</b>` or `<ul><li>item</li></ul>`.")
 
     add("")
     add("### State — optional")

@@ -131,6 +131,16 @@ class TestIssueCSVRules:
         assert "Not enabled for this project" in md
 
     @pytest.mark.django_db
+    def test_rules_document_description_html_support(self, session_client, workspace, project):
+        # The Description section must tell the LLM that HTML is supported but
+        # markdown is not, so it emits HTML tags rather than literal `**bold**`.
+        url = _base_url(workspace.slug, project.id) + "rules/"
+        md = session_client.get(url).data["markdown"]
+        assert "### Description — optional" in md
+        assert "HTML" in md
+        assert "Markdown is NOT interpreted" in md
+
+    @pytest.mark.django_db
     def test_rules_enumerate_enabled_features(self, session_client, workspace, project, create_user):
         # Enable every optional feature and add one value each -> the rules doc
         # enumerates them instead of showing the "not enabled" note.
