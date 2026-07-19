@@ -29,8 +29,11 @@ from plane.utils.importers.csv_issue_importer import FILE_LEVEL_ROW
 _EMPTY_DESCRIPTION = "<p></p>"
 
 
-def build_display_maps(project):
-    """Return id -> display dictionaries for every project-scoped reference."""
+def build_display_maps(project, ctx):
+    """Return id -> display dictionaries for every project-scoped reference.
+
+    `ctx` is reused for the parent map so we don't re-scan the issues table.
+    """
     project_id = project.id
 
     states = {
@@ -70,6 +73,10 @@ def build_display_maps(project):
             ).values("id", "name")
         }
 
+    # ctx maps identifier -> id, but the payload carries parent_id, so we need
+    # the reverse to display the human identifier (e.g. "PROJ-12").
+    parents = {issue_id: identifier for identifier, issue_id in ctx.issue_by_identifier.items()}
+
     return {
         "states": states,
         "members": members,
@@ -78,6 +85,7 @@ def build_display_maps(project):
         "modules": modules,
         "estimates": estimates,
         "types": types,
+        "parents": parents,
     }
 
 
@@ -102,6 +110,7 @@ def serialize_valid_row(parsed, maps):
         "start_date": _iso(payload.get("start_date")),
         "target_date": _iso(payload.get("target_date")),
         "estimate": maps["estimates"].get(payload.get("estimate_point")),
+        "parent": maps["parents"].get(payload.get("parent_id")),
         "cycle": maps["cycles"].get(parsed.cycle_id) if parsed.cycle_id else None,
         "modules": [maps["modules"][mid] for mid in parsed.module_ids if mid in maps["modules"]],
         "type": maps["types"].get(payload.get("type")),

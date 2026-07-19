@@ -34,6 +34,7 @@ export type TCsvPreviewRow = {
   start_date: string | null;
   target_date: string | null;
   estimate: string | null;
+  parent: string | null;
   cycle: string | null;
   modules: string[];
   type: string | null;

@@ -28,6 +28,7 @@ def _maps():
         "modules": {"m1": "Web"},
         "estimates": {"e1": "3"},
         "types": {"t1": "Bug"},
+        "parents": {"p1": "PROJ-12"},
     }
 
 
@@ -45,6 +46,7 @@ class TestSerializeValidRow:
                 "start_date": datetime.date(2026, 8, 1),
                 "target_date": datetime.date(2026, 8, 5),
                 "estimate_point": "e1",
+                "parent_id": "p1",
                 "type": "t1",
             },
             module_ids=["m1"],
@@ -66,6 +68,7 @@ class TestSerializeValidRow:
         assert out["start_date"] == "2026-08-01"
         assert out["target_date"] == "2026-08-05"
         assert out["estimate"] == "3"
+        assert out["parent"] == "PROJ-12"
         assert out["cycle"] == "Sprint 5"
         assert out["modules"] == ["Web"]
         assert out["type"] == "Bug"

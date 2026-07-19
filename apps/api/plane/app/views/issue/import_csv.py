@@ -106,7 +106,7 @@ class IssueCSVImportValidateEndpoint(BaseAPIView):
 
         # Resolve ids back to display values so the preview table renders each
         # row like a real work item (state pill, avatars, coloured labels, …).
-        maps = build_display_maps(project)
+        maps = build_display_maps(project, ctx)
         sample = [serialize_valid_row(row, maps) for row in preview.valid_rows[:PREVIEW_LIMIT]]
         invalid_sample = serialize_invalid_rows(preview.invalid_rows[:PREVIEW_LIMIT], preview.errors)
 

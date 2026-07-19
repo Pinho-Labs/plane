@@ -21,6 +21,7 @@ const validRow = (over?: Partial<TCsvPreviewRow>): TCsvPreviewRow => ({
   start_date: null,
   target_date: null,
   estimate: null,
+  parent: null,
   cycle: null,
   modules: [],
   type: null,

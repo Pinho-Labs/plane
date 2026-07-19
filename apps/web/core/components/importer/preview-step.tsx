@@ -38,6 +38,7 @@ const HEADERS: { key: string; i18n: string; className?: string }[] = [
   { key: "start_date", i18n: "common.order_by.start_date" },
   { key: "target_date", i18n: "common.order_by.due_date" },
   { key: "estimate", i18n: "common.estimate" },
+  { key: "parent", i18n: "common.parent" },
   { key: "cycle", i18n: "common.cycle" },
   { key: "modules", i18n: "common.modules" },
   { key: "type", i18n: "workspace_settings.settings.imports.preview.type" },
@@ -120,8 +121,9 @@ export const ImportPreviewStep = function ImportPreviewStep(props: Props) {
                 <span
                   className={cn(
                     "rounded-full px-1.5 text-10 font-semibold tabular-nums text-tertiary",
+                    // Colour is a status signal, not a selection cue.
                     item.id === "error" && item.count > 0 && "bg-danger-subtle text-danger-primary",
-                    item.id === "valid" && tab === "valid" && "bg-success-subtle text-success-primary"
+                    item.id === "valid" && item.count > 0 && "bg-success-subtle text-success-primary"
                   )}
                 >
                   {item.count}
@@ -363,6 +365,7 @@ function ValidRow({ row, t }: { row: TCsvPreviewRow; t: TFn }) {
           <Dash />
         )}
       </td>
+      <td className={cn(TD, "text-secondary bg-surface-1 group-hover:bg-layer-1")}>{row.parent || <Dash />}</td>
       <td className={cn(TD, "text-secondary bg-surface-1 group-hover:bg-layer-1")}>{row.cycle || <Dash />}</td>
       <td className={cn(TD, "bg-surface-1 group-hover:bg-layer-1")}>
         {row.modules.length ? (
@@ -414,6 +417,7 @@ function InvalidRow({ row, t }: { row: TCsvInvalidRow; t: TFn }) {
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("start_date", "Start Date")}</td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("target_date", "Target Date")}</td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("estimate", "Estimate")}</td>
+      <td className={cn(TD, "bg-danger-subtle/30")}>{raw("parent", "Parent")}</td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("cycle", "Cycle")}</td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("modules", "Modules")}</td>
       <td className={cn(TD, "bg-danger-subtle/30")}>{raw("type", "Work Item Type")}</td>
