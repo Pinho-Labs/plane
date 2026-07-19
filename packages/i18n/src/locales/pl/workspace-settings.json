@@ -120,6 +120,18 @@
         "error_count": "{count} z błędami",
         "row_label": "Wiersz {row}",
         "back": "Wstecz",
+        "preview": {
+          "note": "Podgląd pierwszych {shown} z {valid} prawidłowych wierszy — wszystkie prawidłowe wiersze zostaną zaimportowane.",
+          "tab_all": "Wszystkie",
+          "tab_valid": "Prawidłowe",
+          "tab_errors": "Z błędami",
+          "filter_placeholder": "Filtruj według nazwy…",
+          "showing": "Wyświetlanie {from}–{to} z {total}",
+          "no_rows": "Żaden wiersz nie pasuje do tego filtra.",
+          "unnamed": "(bez nazwy)",
+          "type": "Typ",
+          "new_label": "nowy"
+        },
         "toasts": {
           "success": {
             "title": "Import zakończony",

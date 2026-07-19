@@ -120,6 +120,18 @@
         "error_count": "{count} 项有错误",
         "row_label": "第 {row} 行",
         "back": "返回",
+        "preview": {
+          "note": "正在预览 {valid} 个有效行中的前 {shown} 行，所有有效行都将被导入。",
+          "tab_all": "全部",
+          "tab_valid": "有效",
+          "tab_errors": "有错误",
+          "filter_placeholder": "按名称筛选…",
+          "showing": "显示 {from}–{to}，共 {total} 行",
+          "no_rows": "没有符合此筛选条件的行。",
+          "unnamed": "（未命名）",
+          "type": "类型",
+          "new_label": "新建"
+        },
         "toasts": {
           "success": {
             "title": "导入完成",

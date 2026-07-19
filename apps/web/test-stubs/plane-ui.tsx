@@ -13,6 +13,12 @@ export const Checkbox = (props: { checked?: boolean; onChange?: () => void }) =>
   <input type="checkbox" checked={!!props.checked} onChange={props.onChange} readOnly />
 );
 
+export const Avatar = (props: { name?: string; src?: string }) => (
+  <span data-testid="avatar" data-name={props.name} />
+);
+
+export const AvatarGroup = (props: { children?: React.ReactNode }) => <span data-testid="avatar-group">{props.children}</span>;
+
 export const CustomSearchSelect = (props: {
   label?: React.ReactNode;
   options?: { value?: string; content?: React.ReactNode }[];
@@ -40,6 +46,7 @@ export enum EModalPosition {
 
 export enum EModalWidth {
   XL = "xl",
+  VIIXL = "viixl",
 }
 
 export const ModalCore = ({ children, isOpen }: { children: React.ReactNode; isOpen: boolean }) =>

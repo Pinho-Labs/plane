@@ -20,8 +20,10 @@ export default defineConfig({
       // alias the ones touched by tests to lightweight local stubs.
       "@plane/i18n": stub("./test-stubs/plane-i18n.tsx"),
       "@plane/ui": stub("./test-stubs/plane-ui.tsx"),
+      "@plane/utils": stub("./test-stubs/plane-utils.ts"),
       "@plane/constants": stub("./test-stubs/plane-constants.ts"),
       "@plane/propel/button": stub("./test-stubs/plane-propel-button.tsx"),
+      "@plane/propel/icons": stub("./test-stubs/plane-propel-icons.tsx"),
       "@plane/propel/toast": stub("./test-stubs/plane-propel-toast.ts"),
       "next/navigation": stub("./test-stubs/next-navigation.ts"),
     },

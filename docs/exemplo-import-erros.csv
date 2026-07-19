@@ -1,0 +1,14 @@
+Name,Description,State,Priority,Assignees,Labels,Start Date,Target Date,Estimate,Parent,Cycle,Modules,Work Item Type,External ID
+,Linha sem nome,,,,,,,,,,,,err-001
+NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN,,,,,,,,,,,,,err-002
+Estado inexistente,,EstadoQueNaoExiste,,,,,,,,,,,err-003
+Responsavel nao-membro,,,,naoexiste@exemplo.com,,,,,,,,,err-004
+Prioridade invalida,,,urgentissima,,,,,,,,,,err-005
+Data mal formatada,,,,,,31/12/2026,,,,,,,err-006
+Datas invertidas,,,,,,2026-08-10,2026-08-01,,,,,,err-007
+Parent inexistente,,,,,,,,,NOPE-99999,,,,err-008
+Estimate invalido,,,,,,,,999,,,,,err-009
+Cycle invalido,,,,,,,,,,CicloQueNaoExiste,,,err-010
+Module invalido,,,,,,,,,,,ModuloQueNaoExiste,,err-011
+Tipo invalido,,,,,,,,,,,,TipoQueNaoExiste,err-012
+Label inexistente,,,,,labelquenaoexiste,,,,,,,,err-013

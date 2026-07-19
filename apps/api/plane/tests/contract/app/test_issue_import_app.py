@@ -192,6 +192,15 @@ class TestIssueCSVValidate:
         assert response.data["valid"] == 2
         assert response.data["invalid"] == 0
         assert Issue.objects.filter(project=project).count() == 0  # dry run wrote nothing
+        # The preview sample resolves ids back to display values for the table.
+        sample = response.data["sample"]
+        assert len(sample) == 2
+        assert sample[0]["name"] == "Task A"
+        assert sample[0]["state"]["name"] == "Todo"
+        assert "color" in sample[0]["state"]
+        assert sample[0]["priority"] == "high"
+        assert response.data["invalid_sample"] == []
+        assert response.data["sample_truncated"] is False
 
     @pytest.mark.django_db
     def test_validate_reports_row_errors(self, session_client, workspace, project):
@@ -207,6 +216,15 @@ class TestIssueCSVValidate:
         assert response.data["invalid"] == 2
         fields = {e["field"] for e in response.data["errors"]}
         assert "State" in fields and "Name" in fields
+        # Invalid rows come back with their raw cells + per-row errors for the table.
+        invalid_sample = response.data["invalid_sample"]
+        assert len(invalid_sample) == 2
+        by_row = {r["row"]: r for r in invalid_sample}
+        bad_state_row = next(r for r in invalid_sample if r["values"].get("state") == "Nirvana")
+        assert any(e["field"] == "State" for e in bad_state_row["errors"])
+        unnamed_row = next(r for r in invalid_sample if not r["name"])
+        assert any(e["field"] == "Name" for e in unnamed_row["errors"])
+        assert set(by_row) == {1, 2}
 
     @pytest.mark.django_db
     def test_validate_requires_file(self, session_client, workspace, project):

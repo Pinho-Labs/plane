@@ -120,6 +120,18 @@
         "error_count": "{count} con errores",
         "row_label": "Fila {row}",
         "back": "Atrás",
+        "preview": {
+          "note": "Vista previa de las primeras {shown} de {valid} filas válidas: se importarán todas las filas válidas.",
+          "tab_all": "Todas",
+          "tab_valid": "Válidas",
+          "tab_errors": "Con errores",
+          "filter_placeholder": "Filtrar por nombre…",
+          "showing": "Mostrando {from}–{to} de {total}",
+          "no_rows": "Ninguna fila coincide con este filtro.",
+          "unnamed": "(sin nombre)",
+          "type": "Tipo",
+          "new_label": "nuevo"
+        },
         "toasts": {
           "success": {
             "title": "Importación completada",

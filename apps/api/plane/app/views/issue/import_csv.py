@@ -18,6 +18,11 @@ from plane.db.models import IssueImport, Project
 from plane.utils.host import base_host
 from plane.utils.importers.context import build_resolution_context
 from plane.utils.importers.csv_issue_importer import FILE_LEVEL_ROW, build_preview
+from plane.utils.importers.preview import (
+    build_display_maps,
+    serialize_invalid_rows,
+    serialize_valid_row,
+)
 from plane.utils.importers.rules import build_import_rules_markdown
 from plane.utils.importers.runner import MAX_STORED_ERRORS, create_rows, serialize_errors
 from plane.utils.importers.template import build_template_csv
@@ -30,6 +35,11 @@ MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
 # Row count above which the import runs as a background Celery task instead of
 # synchronously in-request. Grounded in the ~30s gunicorn worker timeout.
 SYNC_ROW_THRESHOLD = 200
+
+# Cap on how many resolved rows the validate dry-run returns for the preview
+# table. All valid rows are still imported on commit — this only bounds the
+# preview payload; the response flags when it was truncated.
+PREVIEW_LIMIT = 200
 
 
 def _read_csv_file(request):
@@ -94,7 +104,12 @@ class IssueCSVImportValidateEndpoint(BaseAPIView):
         ctx = build_resolution_context(project, request.user.id)
         preview = build_preview(text, ctx)
 
-        sample = [{"row": row.row_number, "name": row.payload.get("name")} for row in preview.valid_rows[:50]]
+        # Resolve ids back to display values so the preview table renders each
+        # row like a real work item (state pill, avatars, coloured labels, …).
+        maps = build_display_maps(project)
+        sample = [serialize_valid_row(row, maps) for row in preview.valid_rows[:PREVIEW_LIMIT]]
+        invalid_sample = serialize_invalid_rows(preview.invalid_rows[:PREVIEW_LIMIT], preview.errors)
+
         return Response(
             {
                 "total": preview.total,
@@ -102,6 +117,9 @@ class IssueCSVImportValidateEndpoint(BaseAPIView):
                 "invalid": preview.invalid_count,
                 "errors": serialize_errors(preview.errors)[:MAX_STORED_ERRORS],
                 "sample": sample,
+                "invalid_sample": invalid_sample,
+                "preview_limit": PREVIEW_LIMIT,
+                "sample_truncated": preview.valid_count > PREVIEW_LIMIT,
             },
             status=status.HTTP_200_OK,
         )

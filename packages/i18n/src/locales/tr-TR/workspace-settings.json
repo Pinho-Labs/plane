@@ -120,6 +120,18 @@
         "error_count": "{count} hatalı",
         "row_label": "Satır {row}",
         "back": "Geri",
+        "preview": {
+          "note": "{valid} geçerli satırın ilk {shown} tanesi önizleniyor — tüm geçerli satırlar içe aktarılacak.",
+          "tab_all": "Tümü",
+          "tab_valid": "Geçerli",
+          "tab_errors": "Hatalı",
+          "filter_placeholder": "Ada göre filtrele…",
+          "showing": "{total} satırdan {from}–{to} arası gösteriliyor",
+          "no_rows": "Bu filtreyle eşleşen satır yok.",
+          "unnamed": "(adsız)",
+          "type": "Tür",
+          "new_label": "yeni"
+        },
         "toasts": {
           "success": {
             "title": "İçe aktarma tamamlandı",

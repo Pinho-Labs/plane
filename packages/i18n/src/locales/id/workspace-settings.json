@@ -120,6 +120,18 @@
         "error_count": "{count} dengan kesalahan",
         "row_label": "Baris {row}",
         "back": "Kembali",
+        "preview": {
+          "note": "Melihat pratinjau {shown} dari {valid} baris valid pertama — semua baris valid akan diimpor.",
+          "tab_all": "Semua",
+          "tab_valid": "Valid",
+          "tab_errors": "Dengan kesalahan",
+          "filter_placeholder": "Filter berdasarkan nama…",
+          "showing": "Menampilkan {from}–{to} dari {total}",
+          "no_rows": "Tidak ada baris yang cocok dengan filter ini.",
+          "unnamed": "(tanpa nama)",
+          "type": "Tipe",
+          "new_label": "baru"
+        },
         "toasts": {
           "success": {
             "title": "Impor selesai",

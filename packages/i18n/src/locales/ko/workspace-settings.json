@@ -120,6 +120,18 @@
         "error_count": "{count}개 오류",
         "row_label": "{row}행",
         "back": "뒤로",
+        "preview": {
+          "note": "{valid}개의 유효한 행 중 처음 {shown}개를 미리 봅니다. 유효한 행은 모두 가져옵니다.",
+          "tab_all": "전체",
+          "tab_valid": "유효",
+          "tab_errors": "오류 있음",
+          "filter_placeholder": "이름으로 필터링…",
+          "showing": "{total}개 중 {from}–{to}개 표시",
+          "no_rows": "이 필터와 일치하는 행이 없습니다.",
+          "unnamed": "(이름 없음)",
+          "type": "유형",
+          "new_label": "신규"
+        },
         "toasts": {
           "success": {
             "title": "가져오기 완료",

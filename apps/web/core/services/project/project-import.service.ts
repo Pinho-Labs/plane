@@ -13,12 +13,45 @@ export type TCsvImportError = {
   message: string;
 };
 
+export type TCsvPreviewAssignee = { id: string; display_name: string; avatar_url: string | null };
+export type TCsvPreviewLabel = { name: string; color: string | null; is_new?: boolean };
+export type TCsvPreviewState = { name: string; color: string };
+
+/** A valid row resolved to display values, ready to render like a real work item. */
+export type TCsvPreviewRow = {
+  row: number;
+  name: string;
+  has_description: boolean;
+  priority: string;
+  state: TCsvPreviewState | null;
+  assignees: TCsvPreviewAssignee[];
+  labels: TCsvPreviewLabel[];
+  start_date: string | null;
+  target_date: string | null;
+  estimate: string | null;
+  cycle: string | null;
+  modules: string[];
+  type: string | null;
+};
+
+/** An invalid row: the raw cells the user typed plus the reasons it failed. */
+export type TCsvInvalidRow = {
+  row: number;
+  name: string;
+  values: Record<string, string>;
+  errors: { field: string; message: string }[];
+};
+
 export type TCsvImportValidation = {
   total: number;
   valid: number;
   invalid: number;
   errors: TCsvImportError[];
-  sample: { row: number; name: string }[];
+  sample: TCsvPreviewRow[];
+  // Always present from the API; optional here so older/partial fixtures type-check.
+  invalid_sample?: TCsvInvalidRow[];
+  preview_limit?: number;
+  sample_truncated?: boolean;
 };
 
 export type TCsvImportResult = {

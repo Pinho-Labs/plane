@@ -120,6 +120,18 @@
         "error_count": "{count} có lỗi",
         "row_label": "Hàng {row}",
         "back": "Quay lại",
+        "preview": {
+          "note": "Đang xem trước {shown} dòng hợp lệ đầu tiên trong số {valid} — tất cả các dòng hợp lệ sẽ được nhập.",
+          "tab_all": "Tất cả",
+          "tab_valid": "Hợp lệ",
+          "tab_errors": "Có lỗi",
+          "filter_placeholder": "Lọc theo tên…",
+          "showing": "Đang hiển thị {from}–{to} trong số {total}",
+          "no_rows": "Không có dòng nào khớp với bộ lọc này.",
+          "unnamed": "(không có tên)",
+          "type": "Loại",
+          "new_label": "mới"
+        },
         "toasts": {
           "success": {
             "title": "Nhập hoàn tất",

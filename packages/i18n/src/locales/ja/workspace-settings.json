@@ -120,6 +120,18 @@
         "error_count": "{count}件エラーあり",
         "row_label": "{row}行目",
         "back": "戻る",
+        "preview": {
+          "note": "{valid}件の有効な行のうち最初の{shown}件をプレビューしています。有効な行はすべてインポートされます。",
+          "tab_all": "すべて",
+          "tab_valid": "有効",
+          "tab_errors": "エラーあり",
+          "filter_placeholder": "名前で絞り込み…",
+          "showing": "{total}件中{from}〜{to}件を表示",
+          "no_rows": "このフィルターに一致する行はありません。",
+          "unnamed": "(名前なし)",
+          "type": "種類",
+          "new_label": "新規"
+        },
         "toasts": {
           "success": {
             "title": "インポートが完了しました",

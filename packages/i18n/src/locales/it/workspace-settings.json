@@ -120,6 +120,18 @@
         "error_count": "{count} con errori",
         "row_label": "Riga {row}",
         "back": "Indietro",
+        "preview": {
+          "note": "Anteprima delle prime {shown} di {valid} righe valide — verranno importate tutte le righe valide.",
+          "tab_all": "Tutte",
+          "tab_valid": "Valide",
+          "tab_errors": "Con errori",
+          "filter_placeholder": "Filtra per nome…",
+          "showing": "Visualizzazione di {from}–{to} su {total}",
+          "no_rows": "Nessuna riga corrisponde a questo filtro.",
+          "unnamed": "(senza nome)",
+          "type": "Tipo",
+          "new_label": "nuovo"
+        },
         "toasts": {
           "success": {
             "title": "Importazione completata",

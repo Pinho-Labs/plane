@@ -1,0 +1,6 @@
+Name,Description,State,Priority,Assignees,Labels,Start Date,Target Date,Estimate,Parent,Cycle,Modules,Work Item Type,External ID
+Corrigir redirect de login,Usuario e enviado para /home apos entrar,,high,,,2026-08-01,2026-08-05,,,,,,qa-valid-001
+Ajustar espacamento do header,,,medium,,,,,,,,,,qa-valid-002
+Documentar fluxo de importacao CSV,<p>Ver <b>docs/csv-bulk-import-plan.md</b></p>,,low,,,2026-08-10,2026-08-12,,,,,,qa-valid-003
+Revisar textos da tela de onboarding,Passar pela revisao de copy,,none,,,,,,,,,,qa-valid-004
+Criar item sem prioridade definida,Deve assumir none por padrao,,,,,,,,,,,,qa-valid-005

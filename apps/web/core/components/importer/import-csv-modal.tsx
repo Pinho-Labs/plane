@@ -194,7 +194,13 @@ export const ImportCSVModal = observer(function ImportCSVModal(props: Props) {
     !validation || validation.valid === 0 || (validation.invalid > 0 && !skipInvalid) || isImporting;
 
   return (
-    <ModalCore isOpen={isOpen} handleClose={onClose} position={EModalPosition.CENTER} width={EModalWidth.XL}>
+    <ModalCore
+      isOpen={isOpen}
+      handleClose={onClose}
+      position={EModalPosition.CENTER}
+      // Widen for the preview table; keep the upload step compact.
+      width={step === "preview" ? EModalWidth.VIIXL : EModalWidth.XL}
+    >
       <div className="flex flex-col gap-6 gap-y-4 p-6">
         <h3 className="text-18 font-medium 2xl:text-20">{t("workspace_settings.settings.imports.import_button")}</h3>
 

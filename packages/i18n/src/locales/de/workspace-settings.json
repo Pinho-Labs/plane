@@ -120,6 +120,18 @@
         "error_count": "{count} mit Fehlern",
         "row_label": "Zeile {row}",
         "back": "Zurück",
+        "preview": {
+          "note": "Vorschau der ersten {shown} von {valid} gültigen Zeilen – alle gültigen Zeilen werden importiert.",
+          "tab_all": "Alle",
+          "tab_valid": "Gültige",
+          "tab_errors": "Mit Fehlern",
+          "filter_placeholder": "Nach Name filtern…",
+          "showing": "{from}–{to} von {total} werden angezeigt",
+          "no_rows": "Keine Zeile entspricht diesem Filter.",
+          "unnamed": "(ohne Namen)",
+          "type": "Typ",
+          "new_label": "neu"
+        },
         "toasts": {
           "success": {
             "title": "Import abgeschlossen",

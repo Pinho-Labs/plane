@@ -120,6 +120,18 @@
         "error_count": "{count} cu erori",
         "row_label": "Rândul {row}",
         "back": "Înapoi",
+        "preview": {
+          "note": "Previzualizarea primelor {shown} din {valid} rânduri valide — toate rândurile valide vor fi importate.",
+          "tab_all": "Toate",
+          "tab_valid": "Valide",
+          "tab_errors": "Cu erori",
+          "filter_placeholder": "Filtrează după nume…",
+          "showing": "Se afișează {from}–{to} din {total}",
+          "no_rows": "Niciun rând nu corespunde acestui filtru.",
+          "unnamed": "(fără nume)",
+          "type": "Tip",
+          "new_label": "nou"
+        },
         "toasts": {
           "success": {
             "title": "Import finalizat",

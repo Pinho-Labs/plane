@@ -120,6 +120,18 @@
         "error_count": "{count} with errors",
         "row_label": "Row {row}",
         "back": "Back",
+        "preview": {
+          "note": "Previewing the first {shown} of {valid} valid rows — all valid rows will be imported.",
+          "tab_all": "All",
+          "tab_valid": "Valid",
+          "tab_errors": "With errors",
+          "filter_placeholder": "Filter by name…",
+          "showing": "Showing {from}–{to} of {total}",
+          "no_rows": "No rows match this filter.",
+          "unnamed": "(no name)",
+          "type": "Type",
+          "new_label": "new"
+        },
         "toasts": {
           "success": {
             "title": "Import complete",

@@ -120,6 +120,18 @@
         "error_count": "{count} s chybami",
         "row_label": "Riadok {row}",
         "back": "Späť",
+        "preview": {
+          "note": "Náhľad prvých {shown} z {valid} platných riadkov — naimportujú sa všetky platné riadky.",
+          "tab_all": "Všetko",
+          "tab_valid": "Platné",
+          "tab_errors": "S chybami",
+          "filter_placeholder": "Filtrovať podľa názvu…",
+          "showing": "Zobrazené {from}–{to} z {total}",
+          "no_rows": "Tomuto filtru nezodpovedá žiadny riadok.",
+          "unnamed": "(bez názvu)",
+          "type": "Typ",
+          "new_label": "nový"
+        },
         "toasts": {
           "success": {
             "title": "Import dokončený",

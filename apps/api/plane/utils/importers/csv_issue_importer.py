@@ -100,6 +100,7 @@ class ImportPreview:
     total: int  # total data rows seen
     valid_rows: list = field(default_factory=list)  # list[ParsedRow]
     errors: list = field(default_factory=list)  # list[RowError]
+    invalid_rows: list = field(default_factory=list)  # list[(row_number, raw_row_dict)]
 
     @property
     def valid_count(self):
@@ -356,5 +357,9 @@ def build_preview(csv_text, ctx):
         parsed, row_errors = resolve_row(row_number, row, ctx)
         if parsed is not None:
             preview.valid_rows.append(parsed)
+        else:
+            # Keep the raw cells so the caller can render invalid rows in the
+            # preview table alongside their per-field errors.
+            preview.invalid_rows.append((row_number, row))
         preview.errors.extend(row_errors)
     return preview

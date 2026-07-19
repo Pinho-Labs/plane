@@ -120,6 +120,18 @@
         "error_count": "{count} 項有錯誤",
         "row_label": "第 {row} 列",
         "back": "返回",
+        "preview": {
+          "note": "正在預覽 {valid} 個有效行中的前 {shown} 行，所有有效行都將被匯入。",
+          "tab_all": "全部",
+          "tab_valid": "有效",
+          "tab_errors": "有錯誤",
+          "filter_placeholder": "依名稱篩選…",
+          "showing": "顯示 {from}–{to}，共 {total} 行",
+          "no_rows": "沒有符合此篩選條件的行。",
+          "unnamed": "（未命名）",
+          "type": "類型",
+          "new_label": "新增"
+        },
         "toasts": {
           "success": {
             "title": "匯入完成",
