@@ -97,6 +97,12 @@ jobs:
           owner: Pinho-Labs
           repositories: infra-manifests
 
+      - name: Descobrir o user id do bot do App
+        id: bot
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+
       - name: Checkout infra-manifests
         uses: actions/checkout@v4
         with:
@@ -118,8 +124,8 @@ jobs:
 
       - name: Commit & push (triggers Argo CD)
         run: |
-          git config user.name  "pinholabs-manifest-bot"
-          git config user.email "manifest-bot@users.noreply.github.com"
+          git config user.name  "${{ steps.app-token.outputs.app-slug }}[bot]"
+          git config user.email "${{ steps.bot.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com"
           if git diff --quiet; then
             echo "Manifests were already at SHA ${{ github.sha }}."
           else
