@@ -160,13 +160,13 @@ export const ImportUploadStep = function ImportUploadStep(props: Props) {
             <Copy className="size-3.5" />
             {t("workspace_settings.settings.imports.copy_template")}
           </button>
-          <button type="button" onClick={onCopyRules} className="flex items-center gap-1 hover:underline">
-            <Sparkles className="size-3.5" />
-            {t("workspace_settings.settings.imports.copy_rules")}
-          </button>
           <button type="button" onClick={onDownloadRules} className="flex items-center gap-1 hover:underline">
             <FileDown className="size-3.5" />
             {t("workspace_settings.settings.imports.download_rules")}
+          </button>
+          <button type="button" onClick={onCopyRules} className="flex items-center gap-1 hover:underline">
+            <Sparkles className="size-3.5" />
+            {t("workspace_settings.settings.imports.copy_rules")}
           </button>
         </div>
       )}
