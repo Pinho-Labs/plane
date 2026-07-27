@@ -266,6 +266,45 @@ class ProjectIdentifier(AuditModel):
     project = models.OneToOneField(Project, on_delete=models.CASCADE, related_name="project_identifier")
     name = models.CharField(max_length=12, db_index=True)
 
+    @classmethod
+    def is_taken(cls, name, workspace_id, exclude_project_id=None):
+        """Whether an identifier is unavailable, by project or by leftover claim.
+
+        Both tables have to be consulted: a claim can outlive the project that made it,
+        and checking only one of them lets the database constraint reject what validation
+        should have.
+        """
+        name = (name or "").strip().upper()
+
+        projects = Project.objects.filter(identifier=name, workspace_id=workspace_id)
+        claims = cls.objects.filter(name=name, workspace_id=workspace_id)
+
+        if exclude_project_id:
+            projects = projects.exclude(id=exclude_project_id)
+            claims = claims.exclude(project_id=exclude_project_id)
+
+        return projects.exists() or claims.exists()
+
+    @classmethod
+    def claim(cls, project):
+        """Point the project's row at the identifier it currently uses.
+
+        A rename has to move the existing row: leaving it behind keeps the old identifier
+        claimed forever. all_objects because the relation is one-to-one, so even a
+        soft-deleted row still occupies the slot and a second insert would collide.
+        """
+        row = cls.all_objects.filter(project=project).first()
+
+        if row is None:
+            return cls.objects.create(
+                name=project.identifier, project=project, workspace_id=project.workspace_id
+            )
+
+        row.name = project.identifier
+        row.deleted_at = None
+        row.save(update_fields=["name", "deleted_at"])
+        return row
+
     class Meta:
         unique_together = ["name", "workspace", "deleted_at"]
         constraints = [

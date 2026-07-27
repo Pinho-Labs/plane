@@ -3,11 +3,28 @@
 # See the LICENSE file for details.
 
 import pytest
+from django.core.cache import cache
 from rest_framework.test import APIClient
 from pytest_django.fixtures import django_db_setup
 
 from plane.db.models import User, Workspace, WorkspaceMember
 from plane.db.models.api import APIToken
+
+
+@pytest.fixture(autouse=True)
+def reset_throttle_cache():
+    """Throttle counters are keyed by IP and user, not by test, and live in the cache.
+
+    Left alone they accumulate across the run, so tests fail by their position in the
+    suite rather than by their behaviour, and any new request-making test pushes the ones
+    after it over the limit.
+
+    Throttling tests make all their requests inside a single test, so clearing between
+    tests leaves them intact.
+    """
+    cache.clear()
+    yield
+    cache.clear()
 
 
 @pytest.fixture(scope="session")

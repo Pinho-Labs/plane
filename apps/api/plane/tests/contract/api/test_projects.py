@@ -43,6 +43,56 @@ def outsider_user(db):
 
 
 @pytest.mark.contract
+class TestProjectPatchActivityDispatch:
+    """Contract tests for the deferred activity dispatch on PATCH.
+
+    The update path was moved inside transaction.atomic() with the dispatch registered on
+    commit, mirroring creation. Both halves of that need pinning: the dispatch has to
+    still happen on success, and a broker failure must not turn a committed update into
+    a 500. Creation already had this coverage; this endpoint had none at all.
+    """
+
+    def get_url(self, workspace_slug, pk):
+        return f"/api/v1/workspaces/{workspace_slug}/projects/{pk}/"
+
+    def make_project(self, client, workspace_slug):
+        response = client.post(
+            f"/api/v1/workspaces/{workspace_slug}/projects/",
+            {"name": "Site", "identifier": "SIPL"},
+            format="json",
+        )
+        assert response.status_code == status.HTTP_201_CREATED
+        return response.data["id"]
+
+    @pytest.mark.django_db(transaction=True)
+    def test_successful_update_dispatches_the_activity(self, api_key_client, workspace):
+        project_id = self.make_project(api_key_client, workspace.slug)
+
+        with mock.patch("plane.api.views.project.model_activity") as mocked_activity:
+            response = api_key_client.patch(
+                self.get_url(workspace.slug, project_id), {"name": "Site Institucional"}, format="json"
+            )
+
+        assert response.status_code == status.HTTP_200_OK, f"Got {response.status_code}: {response.data!r}"
+        mocked_activity.delay.assert_called_once()
+
+    @pytest.mark.django_db(transaction=True)
+    def test_response_still_200_when_broker_dispatch_fails(self, api_key_client, workspace):
+        """robust=True has to absorb it: the update is already committed by then."""
+        project_id = self.make_project(api_key_client, workspace.slug)
+
+        with mock.patch("plane.api.views.project.model_activity") as mocked_activity:
+            mocked_activity.delay.side_effect = RuntimeError("broker unavailable")
+            response = api_key_client.patch(
+                self.get_url(workspace.slug, project_id), {"name": "Site Institucional"}, format="json"
+            )
+
+        assert response.status_code == status.HTTP_200_OK, f"Got {response.status_code}: {response.data!r}"
+        assert Project.objects.get(id=project_id).name == "Site Institucional"
+        mocked_activity.delay.assert_called_once()
+
+
+@pytest.mark.contract
 class TestProjectListCreateAPIEndpoint:
     """Contract tests for POST /api/v1/workspaces/{slug}/projects/."""
 

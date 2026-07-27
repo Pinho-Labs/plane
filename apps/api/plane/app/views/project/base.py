@@ -8,6 +8,7 @@ import json
 
 # Django imports
 from django.core.serializers.json import DjangoJSONEncoder
+from django.db import transaction
 from django.db.models import Exists, F, OuterRef, Prefetch, Q, Subquery, Count
 from django.utils import timezone
 
@@ -260,52 +261,62 @@ class ProjectViewSet(BaseViewSet):
 
         serializer = ProjectSerializer(data={**request.data}, context={"workspace_id": workspace.id})
         if serializer.is_valid():
-            serializer.save()
+            # the project, its members and its states are one unit: a partial write leaves
+            # a project the user can see but never finish setting up, behind an error
+            # saying nothing was created
+            with transaction.atomic():
+                serializer.save()
 
-            # Add the user as Administrator to the project
-            _ = ProjectMember.objects.create(
-                project_id=serializer.data["id"],
-                member=request.user,
-                role=ROLE.ADMIN.value,
-            )
-
-            if serializer.data["project_lead"] is not None and str(serializer.data["project_lead"]) != str(
-                request.user.id
-            ):
-                ProjectMember.objects.create(
+                # Add the user as Administrator to the project
+                _ = ProjectMember.objects.create(
                     project_id=serializer.data["id"],
-                    member_id=serializer.data["project_lead"],
+                    member=request.user,
                     role=ROLE.ADMIN.value,
                 )
 
-            State.objects.bulk_create(
-                [
-                    State(
-                        name=state["name"],
-                        color=state["color"],
-                        project=serializer.instance,
-                        sequence=state["sequence"],
-                        workspace=serializer.instance.workspace,
-                        group=state["group"],
-                        default=state.get("default", False),
-                        created_by=request.user,
+                if serializer.data["project_lead"] is not None and str(serializer.data["project_lead"]) != str(
+                    request.user.id
+                ):
+                    ProjectMember.objects.create(
+                        project_id=serializer.data["id"],
+                        member_id=serializer.data["project_lead"],
+                        role=ROLE.ADMIN.value,
                     )
-                    for state in DEFAULT_STATES
-                ]
-            )
 
-            project = self.get_queryset().filter(pk=serializer.data["id"]).first()
+                State.objects.bulk_create(
+                    [
+                        State(
+                            name=state["name"],
+                            color=state["color"],
+                            project=serializer.instance,
+                            sequence=state["sequence"],
+                            workspace=serializer.instance.workspace,
+                            group=state["group"],
+                            default=state.get("default", False),
+                            created_by=request.user,
+                        )
+                        for state in DEFAULT_STATES
+                    ]
+                )
 
-            # Create the model activity
-            model_activity.delay(
-                model_name="project",
-                model_id=str(project.id),
-                requested_data=request.data,
-                current_instance=None,
-                actor_id=request.user.id,
-                slug=slug,
-                origin=base_host(request=request, is_app=True),
-            )
+                project = self.get_queryset().filter(pk=serializer.data["id"]).first()
+
+                # deferred so a rolled-back creation is never reported as having happened;
+                # robust=True keeps a broker failure from turning a committed create into a
+                # 500. nested function rather than functools.partial: Django's robust
+                # on_commit logging reads __qualname__, which partial objects lack.
+                def _dispatch_model_activity():
+                    model_activity.delay(
+                        model_name="project",
+                        model_id=str(project.id),
+                        requested_data=request.data,
+                        current_instance=None,
+                        actor_id=request.user.id,
+                        slug=slug,
+                        origin=base_host(request=request, is_app=True),
+                    )
+
+                transaction.on_commit(_dispatch_model_activity, robust=True)
 
             serializer = ProjectListSerializer(project)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -354,27 +365,35 @@ class ProjectViewSet(BaseViewSet):
         )
 
         if serializer.is_valid():
-            serializer.save()
-            if intake_view:
-                intake = Intake.objects.filter(project=project, is_default=True).first()
-                if not intake:
-                    Intake.objects.create(
-                        name=f"{project.name} Intake",
-                        project=project,
-                        is_default=True,
+            # save() also moves the identifier claim, so a partial write would leave the
+            # project renamed with its old identifier still claimed
+            with transaction.atomic():
+                serializer.save()
+                if intake_view:
+                    intake = Intake.objects.filter(project=project, is_default=True).first()
+                    if not intake:
+                        Intake.objects.create(
+                            name=f"{project.name} Intake",
+                            project=project,
+                            is_default=True,
+                        )
+
+                project = self.get_queryset().filter(pk=serializer.data["id"]).first()
+
+                # deferred so a rolled-back update is never reported as having happened
+                def _dispatch_model_activity():
+                    model_activity.delay(
+                        model_name="project",
+                        model_id=str(project.id),
+                        requested_data=request.data,
+                        current_instance=current_instance,
+                        actor_id=request.user.id,
+                        slug=slug,
+                        origin=base_host(request=request, is_app=True),
                     )
 
-            project = self.get_queryset().filter(pk=serializer.data["id"]).first()
+                transaction.on_commit(_dispatch_model_activity, robust=True)
 
-            model_activity.delay(
-                model_name="project",
-                model_id=str(project.id),
-                requested_data=request.data,
-                current_instance=current_instance,
-                actor_id=request.user.id,
-                slug=slug,
-                origin=base_host(request=request, is_app=True),
-            )
             serializer = ProjectListSerializer(project)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

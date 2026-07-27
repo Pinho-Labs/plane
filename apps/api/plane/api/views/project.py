@@ -480,27 +480,35 @@ class ProjectDetailAPIEndpoint(BaseAPIView):
             )
 
             if serializer.is_valid():
-                serializer.save()
-                if serializer.data["intake_view"]:
-                    intake = Intake.objects.filter(project=project, is_default=True).first()
-                    if not intake:
-                        Intake.objects.create(
-                            name=f"{project.name} Intake",
-                            project=project,
-                            is_default=True,
+                # save() also moves the identifier claim, so a partial write would leave
+                # the project renamed with its old identifier still taken
+                with transaction.atomic():
+                    serializer.save()
+                    if serializer.data["intake_view"]:
+                        intake = Intake.objects.filter(project=project, is_default=True).first()
+                        if not intake:
+                            Intake.objects.create(
+                                name=f"{project.name} Intake",
+                                project=project,
+                                is_default=True,
+                            )
+
+                    project = self.get_queryset().filter(pk=serializer.instance.id).first()
+
+                    # nested function rather than functools.partial: Django's robust
+                    # on_commit logging reads __qualname__, which partial objects lack
+                    def _dispatch_model_activity():
+                        model_activity.delay(
+                            model_name="project",
+                            model_id=str(project.id),
+                            requested_data=request.data,
+                            current_instance=current_instance,
+                            actor_id=request.user.id,
+                            slug=slug,
+                            origin=base_host(request=request, is_app=True),
                         )
 
-                project = self.get_queryset().filter(pk=serializer.instance.id).first()
-
-                model_activity.delay(
-                    model_name="project",
-                    model_id=str(project.id),
-                    requested_data=request.data,
-                    current_instance=current_instance,
-                    actor_id=request.user.id,
-                    slug=slug,
-                    origin=base_host(request=request, is_app=True),
-                )
+                    transaction.on_commit(_dispatch_model_activity, robust=True)
 
                 serializer = ProjectSerializer(project)
                 return Response(serializer.data, status=status.HTTP_200_OK)

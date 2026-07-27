@@ -62,12 +62,11 @@ class ProjectSerializer(BaseSerializer):
         if re.match(Project.FORBIDDEN_IDENTIFIER_CHARS_PATTERN, identifier):
             raise serializers.ValidationError(detail="PROJECT_IDENTIFIER_CANNOT_CONTAIN_SPECIAL_CHARACTERS")
 
-        project = Project.objects.filter(identifier=identifier, workspace_id=workspace_id)
+        # Project.save() upper-cases the identifier, so comparing the raw input would let a
+        # differently-cased duplicate through and fail later on the database constraint
+        identifier = identifier.strip().upper()
 
-        if project_id:
-            project = project.exclude(id=project_id)
-
-        if project.exists():
+        if ProjectIdentifier.is_taken(identifier, workspace_id, exclude_project_id=project_id):
             raise serializers.ValidationError(
                 detail="PROJECT_IDENTIFIER_ALREADY_EXIST",
             )
@@ -92,7 +91,16 @@ class ProjectSerializer(BaseSerializer):
 
         project = Project.objects.create(**validated_data, workspace_id=workspace_id)
 
-        ProjectIdentifier.objects.create(name=project.identifier, project=project, workspace_id=workspace_id)
+        ProjectIdentifier.claim(project)
+
+        return project
+
+    def update(self, instance, validated_data):
+        previous_identifier = instance.identifier
+        project = super().update(instance, validated_data)
+
+        if project.identifier != previous_identifier:
+            ProjectIdentifier.claim(project)
 
         return project
 

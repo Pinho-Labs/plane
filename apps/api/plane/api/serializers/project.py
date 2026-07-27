@@ -145,7 +145,7 @@ class ProjectCreateSerializer(BaseSerializer):
         if identifier == "":
             raise serializers.ValidationError(detail="Project Identifier is required")
 
-        if ProjectIdentifier.objects.filter(name=identifier, workspace_id=self.context["workspace_id"]).exists():
+        if ProjectIdentifier.is_taken(identifier, self.context["workspace_id"]):
             raise serializers.ValidationError(detail="Project Identifier is taken")
 
         if validated_data.get("logo_props", None) is None:
@@ -159,6 +159,10 @@ class ProjectCreateSerializer(BaseSerializer):
             }
 
         project = Project.objects.create(**validated_data, workspace_id=self.context["workspace_id"])
+
+        # writing the row is what makes the check above meaningful on the next call
+        ProjectIdentifier.claim(project)
+
         return project
 
 
@@ -189,6 +193,12 @@ class ProjectUpdateSerializer(ProjectCreateSerializer):
         if project_identifier is not None and re.match(Project.FORBIDDEN_IDENTIFIER_CHARS_PATTERN, project_identifier):
             raise serializers.ValidationError("Project identifier cannot contain special characters.")
 
+        # without this a rename reaches the database constraint instead of a field error
+        if project_identifier is not None and ProjectIdentifier.is_taken(
+            project_identifier, self.context["workspace_id"], exclude_project_id=instance.id
+        ):
+            raise serializers.ValidationError(detail="Project Identifier is taken")
+
         """Update a project"""
         if (
             validated_data.get("default_state", None) is not None
@@ -203,7 +213,14 @@ class ProjectUpdateSerializer(ProjectCreateSerializer):
         ):
             # Check if the estimate is a estimate in the project
             raise serializers.ValidationError("Estimate should be a estimate in the project")
-        return super().update(instance, validated_data)
+
+        previous_identifier = instance.identifier
+        project = super().update(instance, validated_data)
+
+        if project.identifier != previous_identifier:
+            ProjectIdentifier.claim(project)
+
+        return project
 
 
 class ProjectSerializer(BaseSerializer):
@@ -285,15 +302,11 @@ class ProjectSerializer(BaseSerializer):
         if identifier == "":
             raise serializers.ValidationError(detail="Project Identifier is required")
 
-        if ProjectIdentifier.objects.filter(name=identifier, workspace_id=self.context["workspace_id"]).exists():
+        if ProjectIdentifier.is_taken(identifier, self.context["workspace_id"]):
             raise serializers.ValidationError(detail="Project Identifier is taken")
 
         project = Project.objects.create(**validated_data, workspace_id=self.context["workspace_id"])
-        _ = ProjectIdentifier.objects.create(
-            name=project.identifier,
-            project=project,
-            workspace_id=self.context["workspace_id"],
-        )
+        ProjectIdentifier.claim(project)
         return project
 
 
