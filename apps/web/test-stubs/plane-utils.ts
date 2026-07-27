@@ -5,9 +5,18 @@
  */
 
 // Test stub for @plane/utils (the real package ships as a built artifact).
-// Only the helpers used by the importer components are provided.
+// Only the helpers used by the components under test are provided.
 
-type ClassValue = string | number | null | false | undefined | ClassValue[] | Record<string, boolean | undefined | null>;
+import { API_BASE_URL } from "./plane-constants";
+
+type ClassValue =
+  | string
+  | number
+  | null
+  | false
+  | undefined
+  | ClassValue[]
+  | Record<string, boolean | undefined | null>;
 
 export const cn = (...inputs: ClassValue[]): string => {
   const out: string[] = [];
@@ -21,7 +30,11 @@ export const cn = (...inputs: ClassValue[]): string => {
   return out.join(" ");
 };
 
-export const getFileURL = (path: string): string | undefined => path || undefined;
+// must stay faithful to the real helper: cover image tests assert on relative vs absolute paths.
+export const getFileURL = (path: string): string | undefined => {
+  if (!path) return undefined;
+  if (path.startsWith("http")) return path;
+  return `${API_BASE_URL}${path}`;
+};
 
-export const renderFormattedDate = (date: string | Date | null | undefined): string =>
-  date ? String(date) : "";
+export const renderFormattedDate = (date: string | Date | null | undefined): string => (date ? String(date) : "");

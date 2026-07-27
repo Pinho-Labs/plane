@@ -14,7 +14,11 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // @/* -> ./core/* (mirrors tsconfig paths; avoids pulling tsconfig-paths plugin)
+      // mirrors tsconfig paths (avoids pulling tsconfig-paths plugin).
+      // order matters: "@" would swallow the more specific prefixes below it.
+      "@/helpers": stub("./helpers"),
+      "@/plane-web": stub("./ce"),
+      "@/app": stub("./app"),
       "@": stub("./core"),
       // @plane/* ship as built artifacts (dist) not present in a dev checkout;
       // alias the ones touched by tests to lightweight local stubs.
@@ -32,7 +36,7 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: ["./vitest.setup.ts"],
-    include: ["core/**/*.test.{ts,tsx}", "core/**/*.spec.{ts,tsx}"],
+    include: ["{core,ce,helpers}/**/*.test.{ts,tsx}", "{core,ce,helpers}/**/*.spec.{ts,tsx}"],
     css: false,
   },
 });

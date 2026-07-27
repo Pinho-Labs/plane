@@ -6,3 +6,5 @@
 
 // Test stub for @plane/constants (the real package ships as a built artifact).
 export const API_BASE_URL = "http://api.test";
+
+export const RANDOM_EMOJI_CODES = ["128512", "128513"];

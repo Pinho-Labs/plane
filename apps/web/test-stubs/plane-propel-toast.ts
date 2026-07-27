@@ -13,8 +13,8 @@ export const TOAST_TYPE = {
   INFO: "info",
 } as const;
 
-export const toastCalls: { type: string; title?: string }[] = [];
+export const toastCalls: { type: string; title?: string; message?: string }[] = [];
 
-export const setToast = (payload: { type: string; title?: string }) => {
+export const setToast = (payload: { type: string; title?: string; message?: string }) => {
   toastCalls.push(payload);
 };

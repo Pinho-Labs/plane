@@ -11,6 +11,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "@plane/i18n";
 import { TOAST_TYPE, setToast } from "@plane/propel/toast";
 import { EFileAssetType } from "@plane/types";
+import { getFileURL } from "@plane/utils";
 // components
 import ProjectCommonAttributes from "@/components/project/create/common-attributes";
 import ProjectCreateHeader from "@/components/project/create/header";
@@ -38,7 +39,7 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
   const { setToFavorite, workspaceSlug, data, onClose, handleNextStep, updateCoverImageStatus } = props;
   // store
   const { t } = useTranslation();
-  const { addProjectToFavorites, createProject, updateProject } = useProject();
+  const { addProjectToFavorites, createProject } = useProject();
   // states
   const [shouldAutoSyncIdentifier, setShouldAutoSyncIdentifier] = useState(true);
   // form info
@@ -77,6 +78,9 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
             entityType: EFileAssetType.PROJECT_COVER,
             isUserAsset: false,
           });
+          // cover_image_url is read-only on the API, cover_image is the field that persists
+          formData.cover_image = getFileURL(uploadedAssetUrl) || uploadedAssetUrl;
+          formData.cover_image_asset = null;
         } catch (error) {
           console.error("Error uploading cover image:", error);
           setToast({
@@ -84,22 +88,24 @@ export const CreateProjectForm = observer(function CreateProjectForm(props: TCre
             title: t("toast.error"),
             message: error instanceof Error ? error.message : "Failed to upload cover image",
           });
-          return Promise.reject(error);
+          // rejecting here would escape react-hook-form as an unhandled rejection
+          return;
         }
       } else {
-        formData.cover_image = coverImage;
+        formData.cover_image = getFileURL(coverImage) || coverImage;
         formData.cover_image_asset = null;
       }
     }
 
     return createProject(workspaceSlug.toString(), formData)
       .then(async (res) => {
-        if (uploadedAssetUrl) {
-          await updateCoverImageStatus(res.id, uploadedAssetUrl);
-          await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: uploadedAssetUrl });
-        } else if (coverImage && coverImage.startsWith("http")) {
-          await updateCoverImageStatus(res.id, coverImage);
-          await updateProject(workspaceSlug.toString(), res.id, { cover_image_url: coverImage });
+        // the cover already persisted above, so a failed binding must not sink the created project
+        const finalCoverImage = uploadedAssetUrl ?? coverImage;
+        if (finalCoverImage) {
+          // no branch on the cover type: the handler already no-ops on absolute URLs
+          await updateCoverImageStatus(res.id, finalCoverImage).catch((error) => {
+            console.error("Error binding cover image asset:", error);
+          });
         }
         setToast({
           type: TOAST_TYPE.SUCCESS,
